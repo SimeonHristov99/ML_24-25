@@ -25,6 +25,13 @@ Please follow the instructions in one of the following two folders:
 14. 06.01, Monday, 8 am, 013
 15. 13.01, Monday, 8 am, 013
 
+## Schedules
+
+- [ ] Homework 1: 15/16.11 - 08.12.
+- [ ] Homework 2: 14/15.12 - 12.01.
+- [ ] Exam?
+- [ ] Projects: 06-12.01 - date of defense.
+
 ## Resources
 
 ### Python
