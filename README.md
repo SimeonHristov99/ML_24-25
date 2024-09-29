@@ -90,6 +90,6 @@ There will be two homeworks, a project and a possible theory exam.
 
 Refer to the lead of the course.
 
-### How will project topics be provided?
+### When will project topics be provided?
 
 Two weeks before the end of the semester.
