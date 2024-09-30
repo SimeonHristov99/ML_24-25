@@ -74,9 +74,9 @@ Please follow the instructions in one of the following two folders:
 ## Principles of this course
 
 1. There are no bonuses.
-2. You learn however much you want.
+2. You learn as much as you want.
 3. Be proactive.
-4. Each task will have a solution uploaded - it's not expected that your should match it. The solution is there to service as an example. Focus on making the test cases match.
+4. Each task will have a solution uploaded - it's not expected that yours should match it. The solution is there to serve as an example. Focus on making the test cases match (where randomness is excluded, of course).
 5. Using generative AI is discouraged. Instead, try to research via Google on your own and read documentations of various libraries. You can also ask me, of course.
 6. Using generative AI to solve the tasks, given in this course, is strongly discouraged.
 
