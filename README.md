@@ -10,17 +10,17 @@ Please follow the instructions in one of the following two folders:
 ## Sessions with Simo
 
 1. 07.10, Monday, 8 am, 013
-2. (Simo to confirm) 10.10, Thursday, 8 am, ??? or 09.10, Wednesday, 5/6 pm, ???.
+2. **09.10, Wednesday, 5 pm, 013**
 3. 14.10, Monday, 8 am, 013
 4. 21.10, Monday, 8 am, 013
 5. 28.10, Monday, 8 am, 013
 6. 04.11, Monday, 8 am, 013
 7. 11.11, Monday, 8 am, 013
 8. 18.11, Monday, 8 am, 013
-9. (Simo to confirm) 28.11, Thursday, 8 am, ??? or 27.11, Wednesday, 5/6 pm, ???.
+9. **(Simo to confirm) 28.11, Thursday, 8 am, ??? or 27.11, Wednesday, 5/6 pm, ???**
 10. 02.12, Monday, 8 am, 013
-11. (Simo to confirm) 12.12, Thursday, 8 am, ??? or 11.12, Wednesday, 5/6 pm, ???.
-12. (Simo to confirm) 16.12, Monday, 10 am or Tuesday any time before 6 pm.
+11. **(Simo to confirm) 12.12, Thursday, 8 am, ??? or 11.12, Wednesday, 5/6 pm, ???**
+12. **(Simo to confirm) 16.12, Monday, 10 am or Tuesday any time before 6 pm**
 13. 16.12, Monday, 8 am, 013
 14. 06.01, Monday, 8 am, 013
 15. 13.01, Monday, 8 am, 013
