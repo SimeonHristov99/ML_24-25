@@ -75,10 +75,9 @@ Please follow the instructions in one of the following two folders:
 
 1. You learn as much as you want.
 2. Be proactive.
-3. Each task will have a solution uploaded - it's not expected that yours should match it. The solution is there to serve as an example. Focus on making the test cases match (where randomness is excluded, of course).
-4. Using generative AI is discouraged. Instead, try to research via Google on your own and read documentations of various libraries. You can also ask me, of course.
-5. Using generative AI to solve the tasks, given in this course, is strongly discouraged.
-6. We may not have enough time to go through all the planned material for each session. In such cases, please read the remainder on your own.
+3. Using generative AI is discouraged. Instead, try to research via Google on your own and read documentations of various libraries. You can also ask me, of course.
+4. Using generative AI to solve the tasks, given in this course, is strongly discouraged.
+5. We may not have enough time to go through all the planned material for each session. In such cases, please read the remainder on your own.
 
 ## Frequently asked questions
 
