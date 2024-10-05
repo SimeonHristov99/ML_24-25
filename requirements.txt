@@ -1,3 +1,4 @@
+ipykernel
 pandas
 scikit-learn
 matplotlib
