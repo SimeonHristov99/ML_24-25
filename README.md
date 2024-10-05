@@ -78,6 +78,7 @@ Please follow the instructions in one of the following two folders:
 3. Using generative AI is discouraged. Instead, try to research via Google on your own and read documentations of various libraries. You can also ask me, of course.
 4. Using generative AI to solve the tasks, given in this course, is strongly discouraged.
 5. We may not have enough time to go through all the planned material for each session. In such cases, please read the remainder on your own.
+6. You'll get the solution of a task if you first try to solve it yourself.
 
 ## Frequently asked questions
 
