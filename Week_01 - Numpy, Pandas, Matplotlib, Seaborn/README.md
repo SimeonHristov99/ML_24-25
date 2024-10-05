@@ -4,11 +4,6 @@
 2. Get familiar with `pandas`.
 3. Get familiar with `matplotlib`.
 
-## Administrative
-
-- Homework 1: 15/16.11. Topic: Classification.
-- Homework 2: 13/14.12. Topic: Clustering.
-
 ## Task 01
 
 **Description:**
