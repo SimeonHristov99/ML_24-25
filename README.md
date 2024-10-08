@@ -9,7 +9,7 @@ Please follow the instructions in one of the following two folders:
 
 ## Sessions with Simo
 
-1. 07.10, Monday, 8 am, 013
+1. :white_check_mark: 07.10, Monday, 8 am, 013
 2. **09.10, Wednesday, 5 pm, 013**
 3. 14.10, Monday, 8 am, 013
 4. 21.10, Monday, 8 am, 013
