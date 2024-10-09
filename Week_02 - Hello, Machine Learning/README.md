@@ -113,3 +113,25 @@ test_accuracies={1: 0.7946, 2: 0.8606, 3: 0.8501, 4: 0.8696, 5: 0.8741, 6: 0.865
 The following figure should also be produced:
 
 ![w01_hyperparamter_opt_results.png](../assets/w01_hyperparamter_opt_results.png "w01_hyperparamter_opt_results.png")
+
+## Task 05
+
+**Description:**
+
+In class we talked about the *k*-nearest neighbors algorithm. This task is about implementing `KNN` from scratch using only `numpy` and `pandas`.
+
+Implement a class called `KNN` that has as a minimum:
+
+- a constructor;
+- a `fit` method;
+- a `predict` method;
+- a `score` method that returns the accuracy of the model on unseen data.
+
+After you finish your implementation compare it to the built-in class from `sklearn`. Apply both algorithm on the same dataset and output the return value of their `score` methods on the test set.
+
+You have the freedom to choose a dataset and split parameters.
+
+**Acceptance criteria:**
+
+1. A Python script is created in which a custom implementation of KNN is compared to that of `sklearn`.
+2. `sklearn` is not used in the custom implementation.
