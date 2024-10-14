@@ -2382,8 +2382,13 @@ reg_all.score(X_test, y_test)
 0.356302876407827
 ```
 
-- Is this a good result?
-    > No. Here the features only explain about 35% of blood glucose level variance.
+<details>
+
+<summary>Is this a good result?</summary>
+
+No. Here the features only explain about 35% of blood glucose level variance.
+
+</details>
 
 #### Adjusted $R^2$ ($R_{adj}^2$)
 
