@@ -12,7 +12,7 @@ Please follow the instructions in one of the following two folders:
 1. :white_check_mark: 07.10, Monday, 8 am, 013
 2. :white_check_mark: **09.10, Wednesday, 5 pm, 013**
 3. :white_check_mark: 14.10, Monday, 8 am, 013
-4. 21.10, Monday, 8 am, 013
+4. :white_check_mark: 21.10, Monday, 8 am, 013
 5. 28.10, Monday, 8 am, 013
 6. 04.11, Monday, 8 am, 013
 7. 11.11, Monday, 8 am, 013
@@ -29,7 +29,6 @@ Please follow the instructions in one of the following two folders:
 
 - [ ] Homework 1: 15/16.11 - 08.12.
 - [ ] Homework 2: 14/15.12 - 12.01.
-- [ ] Exam?
 - [ ] Projects: 06-12.01 - date of defense.
 
 ## Resources
@@ -84,11 +83,11 @@ Please follow the instructions in one of the following two folders:
 
 ### How will I be graded?
 
-There will be two homeworks, a project and a possible theory exam.
+There will be two homeworks and a project. No exams are planned.
 
 ### Who has more information about the theory exam?
 
-Refer to the lead of the course.
+There will be no theory exam(s).
 
 ### When will project topics be provided?
 
