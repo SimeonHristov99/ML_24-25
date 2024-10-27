@@ -8,7 +8,7 @@
 
 **Description:**
 
-Train a linear regression model using 6-fold cross-validation on the full sales dataset (`advertising_and_sales_clean.csv`). Plot the obtained $R^2$ score for each of the folds and output the mean, standard deviation and 95% confidence interval. Set the seed when shuffling and splitting the data to `5`.
+Train a linear regression model using 6-fold cross-validation on the sales dataset (`advertising_and_sales_clean.csv`). Use numeric features only. Plot the obtained $R^2$ score for each of the folds and output the mean, standard deviation and 95% confidence interval. Set the seed when shuffling and splitting the data to `5`.
 
 **Acceptance criteria:**
 
