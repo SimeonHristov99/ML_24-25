@@ -61,7 +61,7 @@ The following graph is created:
 
 **Description:**
 
-Let's compare two classification models and choose the better one.
+Let's compare two classification models on the diabetes dataset and choose the better one.
 
 Create, train and evaluate a logistic regression model and a KNN model. For each of them compute the area under the ROC curve and plot the confusion matrices they produce. Calculate the precision, recall and f1-score.
 
