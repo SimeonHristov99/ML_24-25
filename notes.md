@@ -2806,6 +2806,13 @@ Another interpretation of the link between precision and recall:
 
 ![w03_prec_rec.png](./assets/w03_prec_rec.png "w03_prec_rec.png")
 
+Why is the harmonic mean used? Since both precision and recall are rates (ratios) between `0` and `1`, the harmonic mean helps balance these two metrics by considering their reciprocals. This ensures that a low value in either one has a significant impact on the overall `F1` score, thus incentivizing a balance between the two.
+
+How does gradient descend happen when we have regularization in linear regression?
+
+- <https://towardsdatascience.com/create-a-gradient-descent-algorithm-with-regularization-from-scratch-in-python-571cb1b46642>;
+- <https://math.stackexchange.com/questions/1652661/gradient-descent-l2-norm-regularization>.
+
 </details>
 
 ### Confusion matrix in scikit-learn
