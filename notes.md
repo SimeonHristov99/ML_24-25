@@ -3209,7 +3209,6 @@ print(ridge_cv.best_params_, ridge_cv.best_score_)
 
 </details>
 
-
 <details>
 
 <summary>What is the main problem of grid search?</summary>
@@ -3228,7 +3227,52 @@ Answer: 30.
 
 <summary>How many fits will be done while performing 10-fold cross-validation for 3 hyperparameters with 10 values each?</summary>
 
-Answer: 900.
+Answer: 10,000!
+
+We can verify this:
+
+```python
+import numpy as np
+from sklearn import svm, datasets
+from sklearn.model_selection import GridSearchCV
+
+
+def main():
+    iris = datasets.load_iris()
+
+    parameters = {
+        'degree': np.arange(10),
+        'C': np.linspace(0, 10, 10),
+        'tol': np.linspace(0.0001, 0.01, 10),
+    }
+
+    print(len(parameters['degree']))
+    print(len(parameters['C']))
+    print(len(parameters['tol']))
+
+    svc = svm.SVC() # This is a support vector machine. We'll talk about it soon.
+    clf = GridSearchCV(svc, parameters, cv=10, verbose=1)
+    clf.fit(iris.data, iris.target)
+    print(sorted(clf.cv_results_))
+
+
+if __name__ == '__main__':
+    main()
+```
+
+This is because:
+
+1. The total number of parameter combinations is `10^3 = 1000` (we have one for-loop with two nested ones inside).
+
+  ```python
+  # pseudocode
+  for d in degrees:
+    for c in cs:
+      for tol in tols:
+        # this is one combination
+  ```
+
+2. For every single one combination we do a `10`-fold cross-validation to get the mean metric. This means that every single one of the paramter combinations is the same while we shift the trainig and testing sets `10` times.
 
 </details>
 
@@ -3237,8 +3281,9 @@ Answer: 900.
 <summary>What is the formula in general then?</summary>
 
 ```text
-number of fits = number of folds * number of hyperparameters * number of total values
+number of fits = number of folds * number of total hyperparameter values
 ```
+
 </details>
 
 <details>
