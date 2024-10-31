@@ -2790,7 +2790,9 @@ It's the sum of true predictions divided by the total sum of the matrix.
 
 ![w03_cm_precision.png](./assets/w03_cm_precision.png "w03_cm_precision.png")
 
-- **high precision** means having a **lower false positive rate**. For our classifier, it means predicting most fraudulent transactions correctly.
+- **high precision** means having a **lower false positive rate**. For our classifier, it means lowering the amount of times legit transactions get incorrectly classified as fraudulent.
+
+$$FPR = \frac{FP}{FP + TN}$$
 
 </details>
 
@@ -2804,7 +2806,13 @@ It's the sum of true predictions divided by the total sum of the matrix.
 
 ![w03_cm_recall.png](./assets/w03_cm_recall.png "w03_cm_recall.png")
 
-- **high recall** reflects a **lower false positive rate**. For our classifier, this translates to fewer legitimate transactions being classified as fraudulent.
+- **high recall** reflects a **lower false negative rate**. For our classifier, it means lowering the amount of times fraudulent transactions get classified as legit.
+
+$$FNR = \frac{FN}{TP + FN}$$
+
+Here is a helpful table that can serve as another example:
+
+![w03_example_metrics_2.png](./assets/w03_example_metrics_2.png "w03_example_metrics_2.png")
 
 </details>
 
