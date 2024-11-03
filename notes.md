@@ -2772,7 +2772,7 @@ It's the sum of true predictions divided by the total sum of the matrix.
 
 ![w03_cm_precision.png](./assets/w03_cm_precision.png "w03_cm_precision.png")
 
-- **high precision** means having a **lower false negative rate**. For our classifier, this translates to fewer legitimate transactions being classified as fraudulent.
+- **high precision** means having a **lower false positive rate**. For our classifier, it means predicting most fraudulent transactions correctly.
 
 </details>
 
@@ -2786,7 +2786,7 @@ It's the sum of true predictions divided by the total sum of the matrix.
 
 ![w03_cm_recall.png](./assets/w03_cm_recall.png "w03_cm_recall.png")
 
-- **high recall** reflects a **lower false positive rate**. For our classifier, it means predicting most fraudulent transactions correctly.
+- **high recall** reflects a **lower false positive rate**. For our classifier, this translates to fewer legitimate transactions being classified as fraudulent.
 
 </details>
 
