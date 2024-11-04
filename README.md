@@ -14,7 +14,7 @@ Please follow the instructions in one of the following two folders:
 3. :white_check_mark: 14.10, Monday, 8 am, 013
 4. :white_check_mark: 21.10, Monday, 8 am, 013
 5. :white_check_mark: 28.10, Monday, 8 am, 013
-6. 04.11, Monday, 8 am, 013
+6. :white_check_mark: 04.11, Monday, 8 am, 013
 7. 11.11, Monday, 8 am, 013
 8. 18.11, Monday, 8 am, 013
 9. **(Simo to confirm) 28.11, Thursday, 8 am, ??? or 27.11, Wednesday, 5/6 pm, ???**
