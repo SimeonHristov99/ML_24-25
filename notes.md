@@ -3447,6 +3447,14 @@ If we do not do this, we are duplicating information, which might be an issue fo
 
 ![w05_dummies.png](./assets/w05_dummies_drop_first.png "w05_dummies.png")
 
+Let's see why we have linear dependence:
+
+To check for linear dependece, we can see what happens when we do one-hot encoding:
+
+$$x_2 = 1 - x_0 - x_1 = (1, 1, 1) - (0, 1, 1) = (1, 0, 0)$$
+
+This means that $x_2$ is linearly dependent hence brings no new information.
+
 </details>
 
 ### In `scikit-learn` and `pandas`
@@ -3633,9 +3641,12 @@ We can check the number of unique values in categorical columns. If every row ha
 
 ### Removing missing values
 
-A common approach is to remove missing observations accounting for less than `5%` of all data. To do this, we use pandas `dropna` method, passing a list of columns to the `subset` argument.
+Two common approaches:
 
-If there are missing values in our subset column, **the entire row** is removed.
+- for the columns with $< 5\%$ missing values, remove the **rows** that contain those missing values.
+- for the columns with $> 65\%$ missing values, remove the **columns**.
+
+To remove observations with missing values from a certain columnset, we can use the pandas `dropna` method, passing a list of columns to the `subset` argument. The idea being, that if there are missing values in our subset column, **the entire row** is removed.
 
 ```python
 df_music = df_music.dropna(subset=['genre', 'popularity', 'loudness', 'liveness', 'tempo'])
