@@ -51,6 +51,7 @@
   - [Random numbers](#random-numbers)
     - [Context](#context-1)
     - [Random generators](#random-generators)
+  - [A note on code formatting](#a-note-on-code-formatting)
 - [Week 02 - Machine learning with scikit-learn](#week-02---machine-learning-with-scikit-learn)
   - [What is machine learning?](#what-is-machine-learning)
   - [The `scikit-learn` syntax](#the-scikit-learn-syntax)
@@ -1835,6 +1836,32 @@ else:
 ```console
 heads
 ```
+
+## A note on code formatting
+
+In this course we'll strive to learn how to develop scripts in Python. In general, good code in software engineering is one that is:
+
+1. Easy to read.
+2. Safe from bugs.
+3. Ready for change.
+
+This section focuses on the first point - how do we make our code easier to read? Here are some principles:
+
+1. Use a linter/formatter.
+2. Simple functions - every function should do one thing. This is the single responsibility principle.
+3. Break up complex logic into multiple steps. In other words, prefer shorter lines instead of longer.
+4. Do not do extended nesting. Instead of writing nested `if` clauses, prefer [`match`](https://docs.python.org/3/tutorial/controlflow.html#match-statements) or many `if` clauses on a single level.
+
+You can automatically handle the first point - let's see how to install and use the `yapf` formatter extension in VS Code.
+
+1. Open the `Extensions` tab, either by using the UI or by pressing `Ctrl + Shift + x`. You'll see somthing along the lines of:
+  ![w01_yapf_on_vscode.png](./assets/w01_yapf_on_vscode.png "w01_yapf_on_vscode.png")
+2. Search for `yapf`:
+  ![w01_yapf_on_vscode_1.png](./assets/w01_yapf_on_vscode_1.png "w01_yapf_on_vscode_1.png")
+3. Select and install it:
+  ![w01_yapf_on_vscode_2.png](./assets/w01_yapf_on_vscode_2.png "w01_yapf_on_vscode_2.png")
+4. After installing, please apply it on every Python file. To do so, press `F1` and type `Format Document`. The script would then be formatted accordingly.
+  ![w01_yapf_on_vscode_3.png](./assets/w01_yapf_on_vscode_3.png "w01_yapf_on_vscode_3.png")
 
 # Week 02 - Machine learning with scikit-learn
 
