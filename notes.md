@@ -110,7 +110,7 @@
   - [Definitions](#definitions)
   - [Scaling in `scikit-learn`](#scaling-in-scikit-learn)
   - [How do we decide which model to try out in the first place?](#how-do-we-decide-which-model-to-try-out-in-the-first-place)
-    - [The size of our dataset](#the-size-of-our-dataset)
+    - [The size of our datase](#the-size-of-our-datase)
     - [Interpretability](#interpretability)
     - [Flexibility](#flexibility)
     - [Train several models and evaluate performance out of the box (i.e. without hyperparameter tuning)](#train-several-models-and-evaluate-performance-out-of-the-box-ie-without-hyperparameter-tuning)
@@ -3901,7 +3901,8 @@ parameters = {'knn__n_neighbors': np.arange(1, 50)}
 
 ## How do we decide which model to try out in the first place?
 
-### The size of our dataset
+### The size of our datase
+
 
 - Fewer features = a simpler model and can reduce training time.
 - Some models, such as Artificial Neural Networks, require a lot of data to perform well.
@@ -4033,10 +4034,22 @@ In the left figure, there's no single line that separates the red and blue examp
 
 ![w07_multiple_choce_linear_boundary.png](assets/w07_multiple_choce_linear_boundary.png "w07_multiple_choce_linear_boundary.png")
 
+<details>
+
+<summary>Reveal answer:</summary>
+
+(1)
+
+</details>
+
 ### Linear classifiers: the prediction equations
 
-- What is the dot-product?
-    > The sum of the element-wise multiplication.
+<details>
+
+<summary>What is a dot-product of two vectors?</summary>
+
+The sum of the element-wise multiplication.
+
 
 ```python
 import numpy as np
@@ -4057,6 +4070,8 @@ print(x @ y)
 14
 14
 ```
+
+</details>
 
 By using dot products, we can express how linear classifiers make predictions:
 
@@ -4122,18 +4137,23 @@ This figure shows an example in `2` dimensions, with the raw model output labele
 
 **So the sign, positive or negative, tells you what side of the decision boundary you're on, and thus your prediction.**
 
-- Which values determine the boudary?
-    > The values of the coefficients and intercept determine the boundary.
-    >
-    > Here's how the boundary would look like if the intercept was different:
-    >
-    > ![w07_model_output_different_intercept.png](assets/w07_model_output_different_intercept.png "w07_model_output_different_intercept.png")
-    >
-    > And here's how the boundary would look like if the coefficients were different:
-    >
-    > ![w07_model_output_different_coeffs.png](assets/w07_model_output_different_coeffs.png "w07_model_output_different_coeffs.png")
+<details>
 
-- Which classifiers make predictions based on the sign (positive or negative) of the raw model output?
+<summary>Which values determine the boudary?</summary>
+
+The values of the coefficients and intercept determine the boundary.
+
+Here's how the boundary would look like if the intercept was different:
+
+![w07_model_output_different_intercept.png](assets/w07_model_output_different_intercept.png "w07_model_output_different_intercept.png")
+
+And here's how the boundary would look like if the coefficients were different:
+
+![w07_model_output_different_coeffs.png](assets/w07_model_output_different_coeffs.png "w07_model_output_different_coeffs.png")
+
+</details>
+
+Which classifiers make predictions based on the sign (positive or negative) of the raw model output?
 
 ```text
 A. Logistic regression only.
@@ -4142,7 +4162,17 @@ C. Neither.
 D. Both logistic regression and Linear SVMs.
 ```
 
-- In the figure below, how many erros did the classifier make?
+<details>
+
+<summary>Reveal answer:</summary>
+
+D.
+
+</details>
+
+In the figure below, how many errors did the classifier make?
+
+![w07_checkpoint_figure.png](assets/w07_checkpoint_figure.png "w07_checkpoint_figure.png")
 
 ```text
 A. 0.
@@ -4150,6 +4180,14 @@ B. 1.
 C. 2.
 D. 3.
 ```
+
+<details>
+
+<summary>Reveal answer:</summary>
+
+D.
+
+</details>
 
 ### Minimzing functions using `scipy`
 
@@ -4179,34 +4217,43 @@ minimize(np.square, 2).x
 array([-1.99946401e-08])
 ```
 
-What we see is a very small number - `10` to the power of `-8`. This is normal for numerical optimization: we don't expect exactly the right answer, but something very close. In the exercises, you'll minimize the squared error from linear regression. The inputs will be the model coefficients.
+What we see is a very small number - `10` to the power of `-8`. This is normal for numerical optimization: we don't expect exactly the right answer, but something very close.
 
 ### Loss function diagrams
 
 We want to draw loss functions, so let's set up a plot with `loss` on the vertical axis. On the horizontal axis we'll plot the `raw model output`.
 
-> **Note:** The following diagrams are only for **1** observation.
+Let's say that the training example is from class `+1`.Then, the right half represents correct predictions and the left half represents incorrect predictions.
 
 ![w07_loss_diagrams_1.png](assets/w07_loss_diagrams_1.png "w07_loss_diagrams_1.png")
-
-Since we predict using the sign of the raw model output, the plot is divided into two halves:
-
-- in the left half we predict the one class (call it `-1`);
-- in the right half we predict the other class (call it `+1`).
-
-Let's say that the training example is from class `+1`. Then, the right half represents correct predictions and the left half represents incorrect predictions.
 
 Here's how the loss used by logistic regression looks like:
 
 ![w07_loss_logistic.png](assets/w07_loss_logistic.png "w07_loss_logistic.png")
 
-And here is the `hinge loss` used by support vector machines in comparison:
+
+<details>
+
+<summary>What was the loss function for logistic regression?</summary>
+
+Binary cross entropy / Log loss:
+
+$\text{Log Loss} = \sum_{(x,y)\in D} -y\log(y') - (1 - y)\log(1 - y')$
+
+</details>
+
+
+And here is the [`hinge loss`](https://en.wikipedia.org/wiki/Hinge_loss) used by support vector machines in comparison:
 
 ![w07_loss_logistic_hinge.png](assets/w07_loss_logistic_hinge.png "w07_loss_logistic_hinge.png")
 
+For an intended output $t = ±1$ and a classifier score $y$, the hinge loss of the prediction $y$ is defined as:
+
+$${hidge(y)=\max(0,1-t\cdot y)}$$
+
 Note that as we move to the right, towards the zone of correct predictions, the loss goes down.
 
-- Which of the four loss functions makes sense for classification?
+Which of the four loss functions makes sense for classification?
     ![w07_best_loss_fn.png](assets/w07_best_loss_fn.png "w07_best_loss_fn.png")
 
 ```text
@@ -4216,10 +4263,18 @@ C. (3)
 D. (4)
 ```
 
+<details>
+
+<summary>Reveal answer:</summary>
+
+B.
+
+</details>
+
 ### Multi-class classification
 
-- multi-class classification means having more than `2` classes;
-- two popular approaches:
+- Multi-class classification means having more than `2` classes;
+- Two popular approaches:
   - one-vs-rest;
   - multinomial/softmax.
 
@@ -4342,9 +4397,9 @@ lr_mn.intercept_.shape
 (3,)
 ```
 
-The multinomial classifier has the same number of coefficients and intercepts as one-vs-rest. Although these two approaches work differently, they learn the same number of parameters and, roughly speaking, the parameters have the same interpretations.
+The multinomial classifier has the same number of coefficients and intercepts as one-vs-rest. Although these two approaches work differently, they learn the same number of parameters and, roughly speaking, the parameters have the same interpretations. More on the way this works [in Wikipedia](https://en.wikipedia.org/wiki/Multinomial_logistic_regression).
 
-- If you fit a logistic regression model on a classification problem with `3` classes and `100` features, how many coefficients would you have, including intercepts?
+If you fit a logistic regression model on a classification problem with `3` classes and `100` features, how many coefficients would you have, including intercepts?
 
 ```text
 A. 101
@@ -4352,6 +4407,14 @@ B. 103
 C. 301
 D. 303
 ```
+
+<details>
+
+<summary>Reveal answer:</summary>
+
+Answer: D.
+
+</details>
 
 ### So, what is a support vector?
 
@@ -4395,7 +4458,7 @@ If the regularization strength is not too large, SVMs maximize the margin of lin
 
 While these max margin ideas can be extended to non-separable data, we won't be using them here. You can think of this as another view on what we've already defined SVMs to be, which is the **hinge loss with L2 regularization**. As it turns out, they are mathematically equivalent.
 
-- Which of the following is a true statement about support vectors?
+Which of the following is a true statement about support vectors?
 
 ```text
 A. All support vectors are classified correctly.
@@ -4404,7 +4467,13 @@ C. All correctly classified points are support vectors.
 D. All incorrectly classified points are support vectors.
 ```
 
-Answer: D
+<details>
+
+<summary>Reveal answer:</summary>
+
+Answer: D.
+
+</details>
 
 ### Kernel SVMs
 
@@ -4413,9 +4482,6 @@ Let's see how to fit **nonlinear boundaries** using **linear classifiers**.
 Consider this `2D` toy dataset.
 
 ![w07_nonlinear_ds.png](assets/w07_nonlinear_ds.png "w07_nonlinear_ds.png")
-
-- Are the two classes linearly separable? Why?
-    > No, since there is no linear boundary that perfectly classifies all the points.
 
 If we try fitting a linear SVM on these points, we might get back something that predicts blue everywhere.
 
@@ -4474,8 +4540,13 @@ We can control the shape of the boundary using the hyperparameters:
 
 ![w07_rbf_boundary_gamma_2.png](assets/w07_rbf_boundary_gamma_2.png "w07_rbf_boundary_gamma_2.png")
 
-- In the third image, we've reached `100%` training accuracy by creating a little "island" of blue around each blue training example. With the right hyperparameters, RBF SVMs are capable of perfectly separating almost any data set. So, why not always use the largest value of gamma and get the highest possible training accuracy?
-    > Overfitting! The kernel hyperparameters affect the tradeoff between training and test accuracy. We should explore the parameter space before deciding on which the final model would be.
+<details>
+
+<summary>In the third image, we've reached `100%` training accuracy by creating a little "island" of blue around each blue training example. With the right hyperparameters, RBF SVMs are capable of perfectly separating almost any data set. So, why not always use the largest value of gamma and get the highest possible training accuracy?</summary>
+
+Overfitting! The kernel hyperparameters affect the tradeoff between training and test accuracy. We should explore the parameter space before deciding on which the final model would be.
+
+</details>
 
 ### Comparing logistic regression and SVM (and beyond)
 
@@ -4520,7 +4591,7 @@ Remember the underlying model is the same - only the loss changes.
 
 `SGDClassifier` works pretty much like the other scikit-learn methods we've seen. One "gotcha" is that the regularization hyperparameter is called `alpha`, instead of `C`, and bigger `alpha` means more regularization. Basically, `alpha = 1/C`.
 
-- Which of the following is an advantage of SVMs over logistic regression?
+Which of the following is an advantage of SVMs over logistic regression?
 
 ```text
 A. They naturally output meaningful probabilities.
@@ -4529,9 +4600,15 @@ C. They are computationally efficient with kernels.
 D. They learn sigmoidal decision boundaries.
 ```
 
-Answer: C. Having a limited number of support vectors makes kernel SVMs computationally efficient.
+<details>
 
-- Which of the following is an advantage of logistic regression over SVMs?
+<summary>Reveal answer:</summary>
+
+C. Having a limited number of support vectors makes kernel SVMs computationally efficient.
+
+</details>
+
+Which of the following is an advantage of logistic regression over SVMs?
 
 ```text
 A. It naturally outputs meaningful probabilities.
@@ -4540,7 +4617,13 @@ C. It is computationally efficient with kernels.
 D. It learns sigmoidal decision boundaries.
 ```
 
-Answer: A.
+<details>
+
+<summary>Reveal answer:</summary>
+
+A.
+
+</details>
 
 ## Decision Trees
 
