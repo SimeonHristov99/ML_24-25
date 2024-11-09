@@ -17,11 +17,11 @@ Please follow the instructions in one of the following two folders:
 6. :white_check_mark: 04.11, Monday, 8 am, 013
 7. 11.11, Monday, 8 am, 013
 8. 18.11, Monday, 8 am, 013
-9. **(Simo to confirm) 28.11, Thursday, 8 am, ??? or 27.11, Wednesday, 5/6 pm, ???**
+9. **27.11, Wednesday, 5 pm, 013**
 10. 02.12, Monday, 8 am, 013
-11. **(Simo to confirm) 12.12, Thursday, 8 am, ??? or 11.12, Wednesday, 5/6 pm, ???**
-12. **(Simo to confirm) 16.12, Monday, 10 am or Tuesday any time before 6 pm**
-13. 16.12, Monday, 8 am, 013
+11. **11.12, Wednesday, 5 pm, 013**
+12. 16.12, Monday, 8 am, 013
+13. **17.12, Tuesday, 11 am, 013**
 14. 06.01, Monday, 8 am, 013
 15. 13.01, Monday, 8 am, 013
 
