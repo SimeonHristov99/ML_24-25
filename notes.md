@@ -114,6 +114,73 @@
     - [Flexibility](#flexibility)
     - [Train several models and evaluate performance out of the box (i.e. without hyperparameter tuning)](#train-several-models-and-evaluate-performance-out-of-the-box-ie-without-hyperparameter-tuning)
     - [Scale the data](#scale-the-data)
+- [Week 07 - Support Vector Machines. Decision Trees. Bagging. Boosting](#week-07---support-vector-machines-decision-trees-bagging-boosting)
+  - [Support Vector Machines](#support-vector-machines)
+    - [`LinearSVC`](#linearsvc)
+    - [`SVC`](#svc)
+    - [Linear vs nonlinear classification](#linear-vs-nonlinear-classification)
+      - [Boudaries](#boudaries)
+      - [Data](#data)
+    - [Linear classifiers: the prediction equations](#linear-classifiers-the-prediction-equations)
+      - [Example](#example-1)
+    - [Minimzing functions using `scipy`](#minimzing-functions-using-scipy)
+    - [Loss function diagrams](#loss-function-diagrams)
+    - [Multi-class classification](#multi-class-classification)
+      - [One-vs-rest](#one-vs-rest)
+      - [Multinomial](#multinomial)
+      - [Model coefficients](#model-coefficients)
+    - [So, what is a support vector?](#so-what-is-a-support-vector)
+    - [Max-margin classifier](#max-margin-classifier)
+    - [Kernel SVMs](#kernel-svms)
+    - [Comparing logistic regression and SVM (and beyond)](#comparing-logistic-regression-and-svm-and-beyond)
+    - [`SGDClassifier`](#sgdclassifier)
+  - [Decision Trees](#decision-trees)
+    - [Classification-And-Regression-Tree (`CART`)](#classification-and-regression-tree-cart)
+      - [Classification tree](#classification-tree)
+        - [What is a classification tree?](#what-is-a-classification-tree)
+        - [How does a classification tree learn?](#how-does-a-classification-tree-learn)
+        - [What criterion is used to measure the impurity of a node?](#what-criterion-is-used-to-measure-the-impurity-of-a-node)
+      - [Regression tree](#regression-tree)
+    - [The Bias-Variance Tradeoff](#the-bias-variance-tradeoff)
+      - [The goals of Supervised Learning](#the-goals-of-supervised-learning)
+      - [Difficulties in Approximating $f$](#difficulties-in-approximating-f)
+      - [Generalization Error](#generalization-error)
+      - [Model Complexity](#model-complexity)
+      - [Bias-Variance Tradeoff: A Visual Explanation](#bias-variance-tradeoff-a-visual-explanation)
+      - [Checkpoint](#checkpoint-2)
+    - [Train-test split revisited](#train-test-split-revisited)
+      - [Estimating the Generalization Error](#estimating-the-generalization-error)
+      - [Diagnose Variance Problems](#diagnose-variance-problems)
+      - [Diagnose Bias Problems](#diagnose-bias-problems)
+    - [Ensemble Learning](#ensemble-learning)
+      - [Advantages of CARTs](#advantages-of-carts)
+      - [Limitations of CARTs](#limitations-of-carts)
+      - [What is Ensemble Learning?](#what-is-ensemble-learning)
+      - [Ensemble Learning in Practice: The `Voting Classifier`](#ensemble-learning-in-practice-the-voting-classifier)
+  - [Bagging](#bagging)
+    - [Disadvantages of ensemble methods](#disadvantages-of-ensemble-methods)
+    - [What is bagging?](#what-is-bagging)
+    - [Bootstrap](#bootstrap)
+    - [Bagging: Training](#bagging-training)
+    - [Bagging: Prediction](#bagging-prediction)
+    - [Bagging: Classification \& Regression](#bagging-classification--regression)
+    - [Out of Bag Evaluation](#out-of-bag-evaluation)
+    - [Further Diversity with `Random Forests`](#further-diversity-with-random-forests)
+    - [`Random Forests`: Classification \& Regression](#random-forests-classification--regression)
+    - [Feature Importance with Trees and Forests](#feature-importance-with-trees-and-forests)
+  - [Boosting](#boosting)
+    - [Boosting: Introduction](#boosting-introduction)
+    - [Boosting: Process](#boosting-process)
+    - [Adaboost](#adaboost)
+    - [Adaboost: Training](#adaboost-training)
+    - [Learning Rate](#learning-rate)
+    - [AdaBoost: Prediction](#adaboost-prediction)
+    - [Gradient Boosted Trees](#gradient-boosted-trees)
+    - [Gradient Boosted Trees for Regression: Training](#gradient-boosted-trees-for-regression-training)
+    - [Shrinkage](#shrinkage)
+    - [Gradient Boosted Trees for Regression: Prediction](#gradient-boosted-trees-for-regression-prediction)
+    - [Gradient Boosting: Cons](#gradient-boosting-cons)
+    - [Stochastic Gradient Boosting](#stochastic-gradient-boosting)
 
 # Week 01 - Numpy, Pandas, Matplotlib & Seaborn
 
@@ -3841,3 +3908,1150 @@ Models not affected by scaling:
 - XGBoost;
 - Catboost;
 - etc, etc, in general, models that are based on trees.
+
+# Week 07 - Support Vector Machines. Decision Trees. Bagging. Boosting
+
+## Support Vector Machines
+
+### `LinearSVC`
+
+In `scikit-learn`, the basic SVM classifier is implemented as the class `LinearSVC` (**linear support vector classifier**).
+
+The `LinearSVC` class has the same methods as all of the previous machine learning algorithms we talked about:
+
+```python
+from sklearn import datasets, svm
+
+wine = datasets.load_wine()
+print(type(wine))
+print(dir(wine))
+print(set(wine.target))
+
+svm = svm.LinearSVC()
+svm.fit(wine.data, wine.target)
+svm.score(wine.data, wine.target)
+```
+
+```console
+<class 'sklearn.utils._bunch.Bunch'>
+['DESCR', 'data', 'feature_names', 'frame', 'target', 'target_names']
+{np.int64(0), np.int64(1), np.int64(2)}
+0.9887640449438202
+```
+
+We see that the `wine` dataset has more than `2` classes and the classifier handles them automatically (as would `LogisticRegression` as well, by the way). We'll talk about how this works in later on.
+
+### `SVC`
+
+We can repeat these steps again for the `SVC` class. It fits a **nonlinear SVM** by default.
+
+```python
+from sklearn import datasets, svm
+
+wine = datasets.load_wine()
+
+svm = svm.SVC()
+svm.fit(wine.data, wine.target)
+svm.score(wine.data, wine.target)
+```
+
+```console
+0.7078651685393258
+```
+
+With default hyperparameters the accuracy is not particularly high, but it's possible to tune them to achieve `100%` training accuracy. Such a classifier would be overfitting the training set, which is a risk we take when using more complex models like nonlinear SVMs.
+
+### Linear vs nonlinear classification
+
+#### Boudaries
+
+A decision boundary tells us what class our classifier will predict for any example in our example space.
+
+In this image, the classifier always predicts the `blue` class in the `blue` shaded area, where feature `2` is small, and the `red` class in the `red` shaded area, where feature `2` is large.
+
+![w07_lin_dec_boundary.png](assets/w07_lin_dec_boundary.png "w07_lin_dec_boundary.png")
+
+> **Definition:** The dividing line between the two regions is called the **decision boundary**.
+
+This decision boundary is linear because it is a line. The line doesn't have to be horizontal; it could be in any orientation.
+
+This definition extends to more than `2` features as well. With `5` features, the space of possible values is `5`-dimensional, which cannot be visualized. In that case, the boundary would be a higher-dimensional **"hyperplane"** cutting the space into two halves.
+
+> **Definiton:** A nonlinear boundary is any type of boundary that is not linear.
+
+![w07_nonlin_dec_boundary.png](assets/w07_nonlin_dec_boundary.png "w07_nonlin_dec_boundary.png")
+
+In their basic forms, logistic regression and SVMs are linear classifiers, which means they learn linear decision boundaries. But, as we saw, they can also be nonlinear and we'll talk about this in a bit.
+
+#### Data
+
+Here's an example of a dataset that is linearly separable and one that is not.
+
+![w07_nonlin_data.png](assets/w07_nonlin_data.png "w07_nonlin_data.png")
+
+In the left figure, there's no single line that separates the red and blue examples. On the other hand, in the right-hand figure we could divide the two classes with a straight line, so it's called linearly separable.
+
+- Which of the following is a linear decision boundary?
+
+![w07_multiple_choce_linear_boundary.png](assets/w07_multiple_choce_linear_boundary.png "w07_multiple_choce_linear_boundary.png")
+
+### Linear classifiers: the prediction equations
+
+- What is the dot-product?
+    > The sum of the element-wise multiplication.
+
+```python
+import numpy as np
+x = np.arange(3)
+y = np.arange(3, 6)
+
+print(x)
+print(y)
+print(x * y)
+print(np.sum(x * y))
+print(x @ y)
+```
+
+```console
+[0 1 2]
+[3 4 5]
+[ 0  4 10]
+14
+14
+```
+
+By using dot products, we can express how linear classifiers make predictions:
+
+1. We compute what we'll call the `raw model output`:
+    - `raw model output` = $coefficients \cdot features + intercept$
+2. Take the sign of this quantity and check if it's positive or negative.
+
+This pattern is the same for both logistic regression and linear SVMs.
+
+We can say logistic regression and linear SVM have different `fit` functions but the same `predict` function.
+
+- The differences in `fit` relate to loss functions, which we'll talk about in a bit.
+
+#### Example
+
+Let's see this equation in action with a logistic regression model. After it has been fit to the data we look at its predictions:
+
+```python
+lr.fit(X, y)
+print(lr.predict(X)[10])
+print(lr.predict(X)[20])
+```
+
+```console
+0
+1
+```
+
+We can get the learned coefficients and intercept with `lr.coef` and `lr.intercept`.
+
+Computing the raw model output for example `10`, we see that it's negative: that's why we predict the negative class, called `0` in this data set.
+
+```python
+lr.coef_ @ X[10] + lr.intercept_ # raw model output
+```
+
+```console
+array([-33.78572166])
+```
+
+On the other hand, for example `20` the raw model output is positive: so we predict the other class, called `1` in this data set.
+
+```python
+lr.coef_ @ X[20] + lr.intercept_ # raw model output
+```
+
+```console
+array([0.08050621])
+```
+
+In general, this is what the `predict` function does for any `X`:
+
+- it computes the raw model output;
+- checks if it's positive or negative;
+- returns a result based on the names of the classes in the data set, in this case `0` and `1`.
+
+This figure shows an example in `2` dimensions, with the raw model output labeled at a few locations.
+
+![w07_model_output.png](assets/w07_model_output.png "w07_model_output.png")
+
+- as we move away from the boundary on one side, the output becomes more and more negative;
+- on the other side, it becomes more and more positive.
+
+**So the sign, positive or negative, tells you what side of the decision boundary you're on, and thus your prediction.**
+
+- Which values determine the boudary?
+    > The values of the coefficients and intercept determine the boundary.
+    >
+    > Here's how the boundary would look like if the intercept was different:
+    >
+    > ![w07_model_output_different_intercept.png](assets/w07_model_output_different_intercept.png "w07_model_output_different_intercept.png")
+    >
+    > And here's how the boundary would look like if the coefficients were different:
+    >
+    > ![w07_model_output_different_coeffs.png](assets/w07_model_output_different_coeffs.png "w07_model_output_different_coeffs.png")
+
+- Which classifiers make predictions based on the sign (positive or negative) of the raw model output?
+
+```text
+A. Logistic regression only.
+B. Linear SVMs only.
+C. Neither.
+D. Both logistic regression and Linear SVMs.
+```
+
+- In the figure below, how many erros did the classifier make?
+
+```text
+A. 0.
+B. 1.
+C. 2.
+D. 3.
+```
+
+### Minimzing functions using `scipy`
+
+> **Definition:** The `0-1` loss is the number of errors made by a classifier.
+
+The package [scipy](https://scipy.org/) has a very handy function - [scipy.optimize.minimize](https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html), that can minimize all sorts of functions. It takes a function and an initial "guess" argument.
+
+Let's try it out on the $y = x^2$ function.
+
+```python
+from scipy.optimize import minimize
+minimize(np.square, 0).x
+```
+
+```console
+array([0.])
+```
+
+We got zero as a result because this function is minimized when `x=0`. But that's not too interesting, since our initial guess was the correct answer. Let's try another initial guess to see if it's actually doing something.
+
+```python
+from scipy.optimize import minimize
+minimize(np.square, 2).x
+```
+
+```console
+array([-1.99946401e-08])
+```
+
+What we see is a very small number - `10` to the power of `-8`. This is normal for numerical optimization: we don't expect exactly the right answer, but something very close. In the exercises, you'll minimize the squared error from linear regression. The inputs will be the model coefficients.
+
+### Loss function diagrams
+
+We want to draw loss functions, so let's set up a plot with `loss` on the vertical axis. On the horizontal axis we'll plot the `raw model output`.
+
+> **Note:** The following diagrams are only for **1** observation.
+
+![w07_loss_diagrams_1.png](assets/w07_loss_diagrams_1.png "w07_loss_diagrams_1.png")
+
+Since we predict using the sign of the raw model output, the plot is divided into two halves:
+
+- in the left half we predict the one class (call it `-1`);
+- in the right half we predict the other class (call it `+1`).
+
+Let's say that the training example is from class `+1`. Then, the right half represents correct predictions and the left half represents incorrect predictions.
+
+Here's how the loss used by logistic regression looks like:
+
+![w07_loss_logistic.png](assets/w07_loss_logistic.png "w07_loss_logistic.png")
+
+And here is the `hinge loss` used by support vector machines in comparison:
+
+![w07_loss_logistic_hinge.png](assets/w07_loss_logistic_hinge.png "w07_loss_logistic_hinge.png")
+
+Note that as we move to the right, towards the zone of correct predictions, the loss goes down.
+
+- Which of the four loss functions makes sense for classification?
+    ![w07_best_loss_fn.png](assets/w07_best_loss_fn.png "w07_best_loss_fn.png")
+
+```text
+A. (1)
+B. (2)
+C. (3)
+D. (4)
+```
+
+### Multi-class classification
+
+- multi-class classification means having more than `2` classes;
+- two popular approaches:
+  - one-vs-rest;
+  - multinomial/softmax.
+
+#### One-vs-rest
+
+Train a series of binary classifiers for each class, then pick the class the classifier for which is most sure (i.e. returns the highest logit (score)).
+
+```python
+lr0.fit(X, y==0)
+
+lr1.fit(X, y==1)
+
+lr2.fit(X, y==2)
+```
+
+```python
+# get raw model output
+lr0.decision_function(X)[0]
+```
+
+```console
+6.124
+```
+
+```python
+lr1.decision_function(X)[0]
+```
+
+```console
+-5.429
+```
+
+```python
+lr2.decision_function(X)[0]
+```
+
+```console
+-7.532
+```
+
+In this case, the largest raw model output comes from classifier `0`. This means it's more confident that the class is `0` than any of the other classes, so we predict class `0`.
+
+We can just let scikit-learn do the work by fitting a logistic regression model on the original multi-class data set, setting the multi-class parameter to `ovr`.
+
+```python
+lr = LogisticRegression(multi_class='ovr')
+lr.fit(X, y)
+lr.predict(X)[0]
+```
+
+```console
+0
+```
+
+#### Multinomial
+
+Since version `1.5` the `multi_class` parameter is deprecated and is removed in version `1.7`. `multinomial` is used always when `num_classes > 2`. Use `sklearn.multiclass.OneVsRestClassifier(LogisticRegression())` if you still want to use `OvR`.
+
+So, how does `multinomial`/`softmax` compare to `one-vs-rest`?
+
+**One-vs-rest:**
+
+- fit a binary classifier for each class;
+- predict with all, take largest output;
+- con: not directly optimizing accuracy;
+- common for `SVM`.
+
+**"Multinomial" or "softmax":**
+
+- fit a single classifier for all classes;
+- prediction directly outputs best class;
+- pro: tackle the problem directly;
+- possible for `SVM`, but less common.
+
+#### Model coefficients
+
+What do the coefficients look like for multi-class classification?
+
+Let's fit a one-vs-rest model on the wine dataset and look at the coefficients.
+
+```python
+lr_ovr = LogicticRegression(multi_class='ovr')
+lr_ovr.fit(X, y)
+lr_ovr.coef_.shape
+```
+
+```console
+(3, 13)
+```
+
+```python
+lr_ovr.intercept_.shape
+```
+
+```console
+(3,)
+```
+
+In the binary case we have one coefficient per feature and one intercept.
+
+For `3` classes we now have `3` entire binary classifiers, so we end up with `1` coefficient per feature per class, and `1` intercept per class. Hence, the coefficients of this model are stored in a `3x13` array.
+
+We can instantiate the multinomial version by setting the `multi_class` argument to `multinomial`.
+
+```python
+lr_mn = LogicticRegression(multi_class='multinomial')
+lr_mn.fit(X, y)
+lr_mn.coef_.shape
+```
+
+```console
+(3, 13)
+```
+
+```python
+lr_mn.intercept_.shape
+```
+
+```console
+(3,)
+```
+
+The multinomial classifier has the same number of coefficients and intercepts as one-vs-rest. Although these two approaches work differently, they learn the same number of parameters and, roughly speaking, the parameters have the same interpretations.
+
+- If you fit a logistic regression model on a classification problem with `3` classes and `100` features, how many coefficients would you have, including intercepts?
+
+```text
+A. 101
+B. 103
+C. 301
+D. 303
+```
+
+### So, what is a support vector?
+
+We now know that logistic regression is a linear classifier learned with the logistic loss function.
+
+Linear SVMs are also linear classifiers, but they use the hinge loss instead and have built-in L2 regularization.
+
+![w07_loss_logistic_hinge.png](assets/w07_loss_logistic_hinge.png "w07_loss_logistic_hinge.png")
+
+The key difference is in the "flat" part of the hinge loss, which occurs when the raw model output is greater than `1`.
+
+This means you predicted an example correctly beyond some **margin of error**. If a training example falls in this "`0` loss" region, it doesn't contribute to the fit (in other words, if the example is removed, nothing would change). This is a key property of SVMs.
+
+> **Definition:** Support vectors are examples that are **NOT** in the flat part of the loss diagram.
+
+In the figure below, support vectors are shown with yellow circles around them.
+
+![w07_example_support_vectors.png](assets/w07_example_support_vectors.png "w07_example_support_vectors.png")
+
+Another way of defining support vectors is that they include the examples (incorrectly and incorrectly classified) that are *close enough* to the boundary.
+
+How close is considered *close enough* is controlled by the regularization strength.
+
+Critical to the popularity of SVMs is that kernel SVMs (coming next), are surprisingly **fast to fit *and* predict**. Part of the speed comes from clever algorithms whose running time only scales with the number of support vectors, rather than the total number of training examples.
+
+### Max-margin classifier
+
+You may also encounter the idea that **SVMs "maximize the margin"**. The diagram below shows an SVM fit on a linearly separable dataset.
+
+![w07_max_margin_clf.png](assets/w07_max_margin_clf.png "w07_max_margin_clf.png")
+
+The learned boundary falls just half way between the two classes. This is an appealing property: in the absence of other information, this boundary makes more sense than a boundary that is much closer to one class than the other.
+
+The yellow lines show the distances from the support vectors to the boundary.
+
+![w07_margin.png](assets/w07_margin.png "w07_margin.png")
+
+> **Definition:** The length of the yellow lines, **which is the same for all `3` cases**, is called the margin.
+
+If the regularization strength is not too large, SVMs maximize the margin of linearly separable datasets. Unfortunately, most datasets are not linearly separable; in other words, we don't typically expect a training accuracy of `100%`.
+
+While these max margin ideas can be extended to non-separable data, we won't be using them here. You can think of this as another view on what we've already defined SVMs to be, which is the **hinge loss with L2 regularization**. As it turns out, they are mathematically equivalent.
+
+- Which of the following is a true statement about support vectors?
+
+```text
+A. All support vectors are classified correctly.
+B. All support vectors are classified incorrectly.
+C. All correctly classified points are support vectors.
+D. All incorrectly classified points are support vectors.
+```
+
+Answer: D
+
+### Kernel SVMs
+
+Let's see how to fit **nonlinear boundaries** using **linear classifiers**.
+
+Consider this `2D` toy dataset.
+
+![w07_nonlinear_ds.png](assets/w07_nonlinear_ds.png "w07_nonlinear_ds.png")
+
+- Are the two classes linearly separable? Why?
+    > No, since there is no linear boundary that perfectly classifies all the points.
+
+If we try fitting a linear SVM on these points, we might get back something that predicts blue everywhere.
+
+However, notice that the red points are all close to the point `(0,0)`. Let's create two new features, one of which is `feature 1` squared and the other of which is `feature 2` squared.
+
+- That means values near `0` will become small values, and values far from `0`, both positive and negative, will become large.
+
+What happens now if we plot the points?
+
+![w07_nonlinear_ds_squared.png](assets/w07_nonlinear_ds_squared.png "w07_nonlinear_ds_squared.png")
+
+Now they are **linearly separable in this *transformed* space**. We can fit a ***linear*** SVM using these new features and the result is a perfect classification.
+
+What does this linear boundary look like back in the original space?
+
+![w07_nonlinear_ds_original.png](assets/w07_nonlinear_ds_original.png "w07_nonlinear_ds_original.png")
+
+We get an ellipse.
+
+**Fitting a *linear* model in a *transformed* space corresponds to fitting a *nonlinear* model in the *original* space.**
+
+Nice! In general:
+
+- the transformation isn't always going to be squaring the features;
+- the boundary isn't always going to be an ellipse;
+- the new space often has a different number of dimensions from the original space.
+
+Nevertheless, this is the basic idea.
+
+Kernels and kernel SVMs implement feature transformations in a computationally efficient way.
+
+Let's look at some code.
+
+```python
+# use scikit-learn's SVC class, rather than LinearSVC, to allow for different kernels
+from sklearn.svm import SVC
+
+svm = SVC(gamma=1) # default is kernel='rbf'. Note that kernel='linear' is also an option!
+```
+
+`RBF` stands for [Radial Basis Function kernel](https://en.wikipedia.org/wiki/Radial_basis_function_kernel). You can think of this as a complicated transformation of the features, followed by fitting a linear boundary in that new space, just like we saw for the simpler squaring transformation. Many nonlinear kernels options exist - we'll stick with RBF.
+
+Let's look at a decision boundary.
+
+![w07_rbf_boundary_gamma_1.png](assets/w07_rbf_boundary_gamma_1.png "w07_rbf_boundary_gamma_1.png")
+
+This is definitely not linear!
+
+As a result, we've gotten a higher training accuracy than we could have with a linear boundary.
+
+We can control the shape of the boundary using the hyperparameters:
+
+- we have the `C` hyperparameter that controls regularization strenght (lower = more);
+- the RBF kernel also introduces a new hyperparameter, `gamma`, which controls the smoothness of the boundary:
+  - decreasing `gamma` means making the boundaries smoother.
+
+![w07_rbf_boundary_gamma_2.png](assets/w07_rbf_boundary_gamma_2.png "w07_rbf_boundary_gamma_2.png")
+
+- In the third image, we've reached `100%` training accuracy by creating a little "island" of blue around each blue training example. With the right hyperparameters, RBF SVMs are capable of perfectly separating almost any data set. So, why not always use the largest value of gamma and get the highest possible training accuracy?
+    > Overfitting! The kernel hyperparameters affect the tradeoff between training and test accuracy. We should explore the parameter space before deciding on which the final model would be.
+
+### Comparing logistic regression and SVM (and beyond)
+
+Let's compare as a final step the two linear classifiers, logistic regression and linear SVMs.
+
+| Logistic Regression                     | Linear Support Vector Machine                  |
+| --------------------------------------- | ---------------------------------------------- |
+| a linear classifier                     | a linear classifier                            |
+| can utilize kernels, but is very slow   | can utilize kernels and fast                   |
+| outputs easy-to-interpret probabilities | does not naturally output probabilities        |
+| can be extended to multiclass           | can be extended to multiclass                  |
+| all data points affect fit              | only "support vectors" affect fit              |
+| has L1 and L2 regularization            | without extending, uses only L2 regularization |
+
+Comparing the use in scikit-learn, we have:
+
+| Logistic Regression                   | Linear Support Vector Machine                  |
+| ------------------------------------- | ---------------------------------------------- |
+| `linear_model.LogisticRegression`     | `svm.LinearSVC` and `svm.SVC(kernel='linear')` |
+| `C` (inverse regularization strength) | `C` (inverse regularization strength)          |
+| `penalty` (type of regularization)    | `kernel` (type of transformation)              |
+| `multi_class` (type of multiclass)    | `gamma` (inverse RBF smoothness)               |
+
+### [`SGDClassifier`](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.SGDClassifier.html)
+
+SGD stands for stochastic gradient descent. This is a classifier that scales well to large datasets.
+
+We haven't talked about SGD a lot, but it's worth knowing that **it can handle very large datasets much better than the other methods we've discussed**.
+
+We've been talking about how logistic regression and SVM are just two types of linear classifiers, and `SGDClassifier` really brings this point home.
+
+```python
+from sklearn.linear_model import SGDClassifier
+
+# to switch between logistic regression and a linear SVM, one only has to set the "loss" hyperparameter
+
+logreg = SGDClassifier(loss='log_loss')
+logsvm = SGDClassifier(loss='hidge')
+```
+
+Remember the underlying model is the same - only the loss changes.
+
+`SGDClassifier` works pretty much like the other scikit-learn methods we've seen. One "gotcha" is that the regularization hyperparameter is called `alpha`, instead of `C`, and bigger `alpha` means more regularization. Basically, `alpha = 1/C`.
+
+- Which of the following is an advantage of SVMs over logistic regression?
+
+```text
+A. They naturally output meaningful probabilities.
+B. They can be used with kernels.
+C. They are computationally efficient with kernels.
+D. They learn sigmoidal decision boundaries.
+```
+
+Answer: C. Having a limited number of support vectors makes kernel SVMs computationally efficient.
+
+- Which of the following is an advantage of logistic regression over SVMs?
+
+```text
+A. It naturally outputs meaningful probabilities.
+B. It can be used with kernels.
+C. It is computationally efficient with kernels.
+D. It learns sigmoidal decision boundaries.
+```
+
+Answer: A.
+
+## Decision Trees
+
+### Classification-And-Regression-Tree (`CART`)
+
+#### Classification tree
+
+##### What is a classification tree?
+
+Given a labeled dataset, a classification tree learns a **sequence** of **if-else** questions about **individual features** in order to infer the labels.
+
+In contrast to linear models, trees:
+
+- capture ***naturally* non-linear relationships** between features and labels;
+- don't require the features to be on the same scale through standardization/normalization.
+
+Let's try to predict whether a tumor is malignant or benign in the [Wisconsin Breast Cancer dataset](https://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_breast_cancer.html) using only `2` features.
+
+![w07_dt_example1.png](assets/w07_dt_example1.png "w07_dt_example1.png")
+
+When a classification tree is trained on this dataset, the tree learns a sequence of if-else questions.
+
+Each question involves `1` feature and `1` **split-point**.
+
+![w07_dt_example2.png](assets/w07_dt_example2.png "w07_dt_example2.png")
+
+1. At the top, the tree asks whether the mean of the concave-points is <= `0.051`. If it is, the instance traverses the `True` branch; otherwise, it traverses the `False` branch.
+2. The instance keeps traversing the internal branches until it reaches an end (a leaf node).
+3. The label of the instance is then predicted to be that of the **prevailing class at that end**.
+
+In scikit-learn the class for creating decision trees is called `DecisionTreeClassifier` and can be found in `sklearn.tree`. Here's how we could implement the above solution
+
+```python
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import accuracy_score
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, stratify=y, random_state=1)
+
+dt = DecisionTreeClassifier(max_depth=2, random_state=1)
+dt.fit(X_train, y_train)
+y_pred = dt.predict(X_test)
+accuracy_score(y_test, y_pred)
+```
+
+```console
+0.90350877192982459
+```
+
+To understand the tree's predictions more concretely, let's see how it classifies instances in the feature-space.
+
+![w07_dt_vs_logreg.png](assets/w07_dt_vs_logreg.png "w07_dt_vs_logreg.png")
+
+- the left figure shows the decision regions of a logistic regression:
+  - note how the boundary is a straight-line.
+- the right figure shows the decision regions of a classification tree:
+  - see how it produces rectangular decision regions in the feature space:
+    - this happens because at each split made by the tree, only `1` feature is involved.
+
+##### How does a classification tree learn?
+
+Until now we know that:
+
+- **Decision Tree:** a binary data structure consisting of a hierarchy of nodes;
+- **Non-leaf Node:** question;
+- **Leaf Node:** prediction.
+
+![w07_dt_structure.png](assets/w07_dt_structure.png "w07_dt_structure.png")
+
+The nodes of a classification tree are grown recursively. At each node, a tree asks a question involving one feature `f` and a split-point `sp`.
+
+![w07_dt_structure_general.png](assets/w07_dt_structure_general.png "w07_dt_structure_general.png")
+
+But how does it know which feature and which split-point to pick?
+
+- It considers that every node contains an amount of uncertainty and aims to minimize that amount in the children nodes (make them more **pure**) with each split.
+
+- The above is equivalent to saying that the tree maximizes the **information gain** it makes with every split.
+
+Consider the case where a node with `N` samples is split into a left-node with `Nleft` samples and a right-node with `Nright` samples. The information gain (or the amount of uncertainty removed) for such split is given by this formula:
+
+![w07_ig_formula.png](assets/w07_ig_formula.png "w07_ig_formula.png")
+
+Here `I` is the amount of uncertainty and `IG` is information gain.[^1]
+
+##### What criterion is used to measure the impurity of a node?
+
+There are different criteria you can use among which are the **gini-index** and **entropy**.
+
+**Gini Index Formula and Example[^2]:**
+
+![w07_gini_formula.png](assets/w07_gini_formula.png "w07_gini_formula.png")
+
+**Entropy Formula and Example[^3]:**
+
+![w07_entropy_formula.png](assets/w07_entropy_formula.png "w07_entropy_formula.png")
+
+Note that here when we're considering multiple splits, we take the weighted averages between the entropies for each split:
+
+![w07_entropy_example.png](assets/w07_entropy_example.png "w07_entropy_example.png")
+
+The default criteria in scikit-learn is `gini`, though we could also specify `entropy`. Often we would compare both in a grid search.
+
+```python
+dt_with_gini = DecisionTreeClassifier(criterion='gini') # default
+dt_with_entropy = DecisionTreeClassifier(criterion='entropy')
+```
+
+<details>
+
+<summary>
+Which of the following is not true?
+
+1. The existence of a node depends on the state of its predecessors.
+2. The impurity of a node can be determined using different criteria such as entropy and the gini-index.
+3. When the information gain resulting from splitting a node is null, the node is declared as a leaf.
+4. When an internal node is split, the split is performed in such a way so that information gain is minimized.
+
+Click to reveal answer.
+</summary>
+
+Answer: 4. It's quite the contrary - splitting an internal node always involves maximizing the information gain.
+
+</details>
+
+#### Regression tree
+
+Below the [`automobile miles-per-gallon`](https://archive.ics.uci.edu/dataset/9/auto+mpg) dataset is shown (it's also present in our `DATA` folder as `auto.csv`).
+
+![w07_mpg.png](assets/w07_mpg.png "w07_mpg.png")
+
+It consists of `6` features corresponding to the characteristics of a car and a continuous target variable labeled `mpg` (miles-per-gallon). Our task is to predict the mpg consumption of a car given these features.
+
+Let's try to do this by only using the displacement of a car - `displ`.
+
+A 2D scatter plot shows that the mpg-consumption decreases **nonlinearly** with displacement.
+
+![w07_mpg_scatter.png](assets/w07_mpg_scatter.png "w07_mpg_scatter.png")
+
+When a regression tree is trained on a dataset, the **impurity** of a node is measured using the **mean-squared error** of the targets in that node.
+
+![w07_regression_tree.png](assets/w07_regression_tree.png "w07_regression_tree.png")
+
+This means that the regression tree tries to find the splits that produce leafs where in each leaf the target values are on average, the closest possible to the mean-value of the labels in that particular leaf.
+
+As a new instance traverses the tree and reaches a certain leaf, its target-variable `y` is computed as the average of the target-variables contained in that leaf.
+
+![w07_regression_tree_example.png](assets/w07_regression_tree_example.png "w07_regression_tree_example.png")
+
+To highlight the importance of the flexibility of regression trees, take a look at this figure. The regression tree shows a greater flexibility and is able to capture the non-linearity, though not fully.
+
+![w07_regression_tree_vs_lin_reg.png](assets/w07_regression_tree_vs_lin_reg.png "w07_regression_tree_vs_lin_reg.png")
+
+### The Bias-Variance Tradeoff
+
+In supervised learning, you make the assumption: $y = f(x), f$ is unknown.
+
+$f$ shown in red is an unknown function that you want to determine. Real data, however, is always accompanied with randomness or noise like the blue points.
+
+![w07_bv_tradeoff_example1.png](assets/w07_bv_tradeoff_example1.png "w07_bv_tradeoff_example1.png")
+
+#### The goals of Supervised Learning
+
+- find a model $\hat{f}$ that best approximates $f$: $\hat{f} \approx f$:
+  - $\hat{f}$ can be any machine learning model: logistic regression, decision tree, neural network, etc.
+- discard noise as much as possible;
+- $\hat{f}$ should achieve a low predictive error on unseen data.
+
+#### Difficulties in Approximating $f$
+
+- **Overfitting:** $\hat{f}(x)$ fits the training set noise.
+
+![w07_overfitting.png](assets/w07_overfitting.png "w07_overfitting.png")
+
+- **Underfitting:** $\hat{f}$ is not flexible enough / complex enough to approximate $f$.
+
+![w07_underfitting.png](assets/w07_underfitting.png "w07_underfitting.png")
+
+#### Generalization Error
+
+- **Generalization Error of $\hat{f}$**: Quantifies how well $\hat{f}$ generalizes on unseen data.
+- It can be decomposed to:
+
+$$\hat{f} = bias^2 + variance + irreducible\ error$$
+
+- **Bias:** error term that quantifies how much on average the model fails to predict the true outcome ($\hat{f} \neq f$). Here is a model with high bias:
+
+![w07_bias.png](assets/w07_bias.png "w07_bias.png")
+
+- **Variance:** error term that quantifies how much $\hat{f}$ is inconsistent over different training sets (how overfit the model is). Here is a model with high variance:
+
+![w07_variance.png](assets/w07_variance.png "w07_variance.png")
+
+- **Irreducible error:** The error contribution of noise. There can never be a perfect model, so we regard this term as a small constant that is always present.
+
+#### Model Complexity
+
+- The easiest way in which we can control how well $\hat{f}$ approximates $f$ is by varying its (the model's) complexity.
+- Examples: Maximum tree depth, Minimum samples per leaf, Number of features used, Number of neurons, etc.
+- This diagram is known as the **Bias-Variance Tradeoff**: it shows how the best model complexity corresponds to the lowest generalization error.
+
+![w07_bv_diagram.png](assets/w07_bv_diagram.png "w07_bv_diagram.png")
+
+#### Bias-Variance Tradeoff: A Visual Explanation
+
+If the red squares represent the amount of errors we make for each sample, then:
+
+![w07_bv_diagram2.png](assets/w07_bv_diagram2.png "w07_bv_diagram2.png")
+
+#### Checkpoint
+
+- Which of the following correctly describes the relationship between $\hat{f}$'s complexity and $\hat{f}$'s bias and variance terms?
+
+```text
+A. As the complexity of decreases, the bias term decreases while the variance term increases.
+B. As the complexity of decreases, both the bias and the variance terms increase.
+C. As the complexity of increases, the bias term increases while the variance term decreases.
+D. As the complexity of increases, the bias term decreases while the variance term increases.
+```
+
+<details>
+
+<summary>Click to reveal answer</summary>
+
+Answer: D
+
+</details>
+
+- Visually diagnose whether a model is overfitting or underfitting the training set. Let's say you've trained two different models $A$ and $B$ on the `auto` dataset to predict the `mpg` consumption of a car using only the car's displacement (`displ`) as a feature. The following figure shows you scatterplots of `mpg` versus `displ` along with lines corresponding to the training set predictions of models $A$ and $B$ in red. Which of the following statements is true?
+
+    ![w07_checkpoint.png](assets/w07_checkpoint.png "w07_checkpoint.png")
+
+```text
+A. $A$ suffers from high bias and overfits the training set.
+B. $A$ suffers from high variance and underfits the training set.
+C. $B$ suffers from high bias and underfits the training set.
+D. $B$ suffers from high variance and underfits the training set.
+```
+
+<details>
+
+<summary>Click to reveal answer</summary>
+
+Answer: C. Model B is not able to capture the nonlinear dependence of `mpg` on `displ`.
+
+</details>
+
+### Train-test split revisited
+
+#### Estimating the Generalization Error
+
+- How do we estimate the generalization error of a model?
+- Cannot be done directly because:
+  - $f$ is unknown (if it was known, we would've just coded the formula);
+  - usually there's only one dataset;
+  - noise is unpredictable.
+- Solution: split the data into training and testing sets:
+  - fit $\hat{f}$ to the training set and evaluate the its error on the **unseen** test set;
+  - the generalization error of $\hat{f}$ $\approx$ etst set error of $\hat{f}$.
+  - there's a problem with this approach, though: the test set should not be used until we're confident about $\hat{f}$'s performance.
+    - also, we can't evaluate $\hat{f}$ on the training set as that would give a biased estimate ($\hat{f}$ has already seen all training points).
+
+<details>
+
+<summary>What is the solution?</summary>
+
+K-Fold cross validation!
+
+![w07_kfold_recap_1.png](assets/w07_kfold_recap_1.png "w07_kfold_recap_1.png")
+
+The error is then calculated as the mean of the cross-validation results:
+
+![w07_kfold_recap_2.png](assets/w07_kfold_recap_2.png "w07_kfold_recap_2.png")
+
+</details>
+
+#### Diagnose Variance Problems
+
+- If CV error of $\hat{f}$ > trainig set error of $\hat{f}$: $\hat{f}$ suffers from **high variance**;
+- $\hat{f}$ is said to have **overfit** the training set. To remedy overfitting:
+  - decrease model complexity;
+    - decrease max tree depth, increase min samples per leaf, decrease number of neurons.
+  - gather more data.
+
+#### Diagnose Bias Problems
+
+- If CV error of $\hat{f} \approx$ trainig set error of $\hat{f}$ and this error is much greater than the disired error: $\hat{f}$ suffers from **high bias**;
+- $\hat{f}$ is said to have **underfit** the training set. To remedy underfitting:
+  - increase model complexity;
+    - increase max tree depth, decrease min samples per leaf, increase number of neurons, increase number of layers.
+  - gather more relevant features;
+  - feature enginneering.
+
+- What do we deduct from the below outputs - overfitting or underfitting?
+
+    ![w07_kfold_checkpoint.png](assets/w07_kfold_checkpoint.png "w07_kfold_checkpoint.png")
+
+<details>
+
+<summary>Click to reveal answer</summary>
+
+Answer: overfitting. The cross-validation error is higher than the training error.
+
+</details>
+
+### Ensemble Learning
+
+#### Advantages of CARTs
+
+- Simple to understand;
+- Simple to interpret;
+- Easy to use;
+- Flexibility: ability to describe non-linear dependecies;
+- Preprocessing: no need to standardize or normalize features.
+
+#### Limitations of CARTs
+
+- Classification: can only produce orthogonal decision boundaries;
+- Sensitive to small variations in the training set;
+- High variance: unconstrained CARTs easily overfit the training set;
+- We can address these limitations by utilizing the **Ensemble Learning** technique.
+
+#### What is Ensemble Learning?
+
+- Train different models on the same dataset;
+- Let each model make its predictions;
+- Create a meta-model that aggregates the predictions of individual models;
+- Output the final prediction. Using this technique, we get more robust results that are less prone to errors;
+- Usually the best results are obtained when the used models are skillful in different ways:
+  - this can be achieved easily if different types of models are used (rather than a variation of the same model).
+
+![w07_ensemble.png](assets/w07_ensemble.png "w07_ensemble.png")
+
+#### Ensemble Learning in Practice: The [`Voting Classifier`](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.VotingClassifier.html#sklearn.ensemble.VotingClassifier)
+
+Let's say we have a binary classification task.
+
+- We create $N$ classifiers and get their predictions for a single observation: $P_0, P_1, \dots, P_{n-1}$ with $P_i = 0$ or $1$.
+- Those predictions get passed to a meta-model. In the case of the `Voting Classifier`, this model is simply a majority vote on the predictions.
+  - If $N$ is even and the predictions get event, a class is chosen at random.
+  - Therefore, aviod setting $N$ to an even number.
+
+![w07_ensemble_voting_clf.png](assets/w07_ensemble_voting_clf.png "w07_ensemble_voting_clf.png")
+
+## Bagging
+
+### Disadvantages of ensemble methods
+
+- Trained on the same training set.
+- Use different algorithms.
+- Do not guarantee better performance (as you'll see in the tasks).
+
+### What is bagging?
+
+- Shorthand for `Bootstrap aggregation`.
+- A model creation technique that outputs an ensemble meta-estimator that fits base classifiers **of 1 model type** each on random subsets of the original dataset and then aggregates their individual predictions (either by voting or by averaging) to form a final prediction.
+  - Training dataset for each model is formed by the `Bootstrap` technique.
+  - Proven to reduce variance of individual models in the ensemble.[^4]
+
+### Bootstrap
+
+A bootstrap sample is a set of randomly chosen observations from the original dataset drawn with replacement **up to the size of the original dataset**.
+
+![w07_bootstrap.png](assets/w07_bootstrap.png "w07_bootstrap.png")
+
+### Bagging: Training
+
+In the training phase, bagging consists of:
+
+1. Drawing `N` different bootstrap samples from the training set.
+2. Using each of them train `N` models that use the same algorithm.
+
+![w07_bagging_training.png](assets/w07_bagging_training.png "w07_bagging_training.png")
+
+### Bagging: Prediction
+
+When a new instance is fed to the different models forming the bagging ensemble, each model outputs its prediction. The meta model collects these predictions and outputs a final prediction depending on the nature of the problem.
+
+![w07_bagging_prediction.png](assets/w07_bagging_prediction.png "w07_bagging_prediction.png")
+
+### Bagging: Classification & Regression
+
+**Classification:**
+
+- Aggregates predictions by majorty voting.
+- [`BaggingClassifier`](https://scikit-learn.org/1.5/modules/generated/sklearn.ensemble.BaggingClassifier.html) in scikit-learn.
+
+**Regression:**
+
+- Aggregates predictions through averaging.
+- [`BaggingRegressor`](https://scikit-learn.org/1.5/modules/generated/sklearn.ensemble.BaggingRegressor.html) in scikit-learn.
+
+> **Note:** The model you pass as an `estimator` must already be created / instanciated. Refer to the documentation in the above links.
+
+### Out of Bag Evaluation
+
+- During bagging some instances may be sampled several times for one model, but others may not be sampled at all. How can we make use of them?
+  - Did you know? On average only `67%` of samples get sampled to form a bootstrap sample![^5]
+- Solution: OOB Evaluation:
+
+We use the unseen samples for evaluation. In general, this is analogous to the well-known `70%-30% train-test` split.
+
+![w07_oob_evaluation.png](assets/w07_oob_evaluation.png "w07_oob_evaluation.png")
+
+- In sklearn, we can obtain the out of bag scores of each model by doing these two steps:
+  1. Set `oob_score` to `True` when instanciating the aggregator.
+  2. Train the model using the training set.
+  3. Access the `OOB` scores using the `oob_score_` attribute of the trained model.
+
+> **Note:** `oob_score_` returns **accuracy** on the OOB instances.
+
+### Further Diversity with `Random Forests`
+
+- `Random Forests` is another ensemble learning method.
+- Its base estimator is a `Decision Tree`.
+- Each estimator is trained on a different bootstrap sample with size = size of original dataset.
+- `RF` introduces further randomization in the training of individual trees:
+  - $d$ features are sampled for each model without replacement ($d < total\ number\ of\ features$).
+
+![w07_random_forest.png](assets/w07_random_forest.png "w07_random_forest.png")
+
+### `Random Forests`: Classification & Regression
+
+- Aggregates predictions by majorty voting.
+- [`RandomForestClassifier`](https://scikit-learn.org/1.5/modules/generated/sklearn.ensemble.RandomForestClassifier.html) in scikit-learn.
+
+**Regression:**
+
+- Aggregates predictions through averaging.
+- [`RandomForestRegressor`](https://scikit-learn.org/1.5/modules/generated/sklearn.ensemble.RandomForestRegressor.html) in scikit-learn.
+
+> **Note:** The model you pass as an `estimator` must already be created / instanciated. Refer to the documentation in the above links.
+
+### Feature Importance with Trees and Forests
+
+Tree-based methods enable measuring importance of each feature.
+
+In `sklearn`:
+
+- how many times the tree nodes use a particular feature (weighted average) to reduce impurity.
+- accessed using the attribute `feature_importance_`.
+
+## Boosting
+
+### Boosting: Introduction
+
+- **Boosting:** Ensemble method combining several weak learners to form a strong learner.
+- **Weak learner:** Model doing slightly better than random guessing.
+  - Example: decision stump (CART whose maximum depth is `1`).
+
+### Boosting: Process
+
+1. Train an ensemble of predictors sequentially.
+2. Each predictor tries to correct its predecessor.
+
+- Most popular boosting methods:
+  - AdaBoost;
+  - Gradient Boosting.
+
+### Adaboost
+
+- Shorthand for **Ada**ptive **Boost**ing.
+- Each predictor pays more attention to the instances wrongly predicted by its predecessor.
+  - Achieved by changing the weights of training instances, thus increasing the value of the loss if they get uncorrectly prediced again.
+- Each predictor is assigned a coefficient $\alpha$ that corresponds to the **amount of say** the predictor has in determining the final vote.
+  - $\alpha$ depends on the predictor's training error.
+
+### Adaboost: Training
+
+![w07_adaboost.png](assets/w07_adaboost.png "w07_adaboost.png")
+
+1. `predictor1` is trained on the initial dataset `(X, y)`.
+2. The training error for `predictor1` is determined.
+3. This error is used to determine `alpha1` which is `predictor1`'s say in the final vote.
+4. `alpha1` is used to determine the weights $W^2$ of the training instances for `predictor2`. This can be see in the incorrectly predicted instances shown in `green` that acquire higher weights.
+
+### Learning Rate
+
+Learning rate: $0 < \eta \leq 1$
+
+![w07_adaboost_lr.png](assets/w07_adaboost_lr.png "w07_adaboost_lr.png")
+
+The learning rate - $\eta$ (eta), is used to shrink the coefficient $\alpha$ of a trained predictor. It's important to note that there's a trade-off between $\eta$ and the number of estimators. **A smaller value should be compensated by a greater number of estimators.**
+
+### AdaBoost: Prediction
+
+**Classification:**
+
+- Weighted majority voting.
+- In scikit-learn [`AdaBoostClassifier`](https://scikit-learn.org/1.5/modules/generated/sklearn.ensemble.AdaBoostClassifier.html).
+
+**Regression:**
+
+- Weighted average.
+- In scikit-learn [`AdaBoostRegressor`](https://scikit-learn.org/1.5/modules/generated/sklearn.ensemble.AdaBoostRegressor.html).
+
+### Gradient Boosted Trees
+
+- Each predictor is trained using its predecessor's residual errors as **labels**.
+- The base learner is a CART.
+- Result: sequential correction of predecessor's errors.
+
+### Gradient Boosted Trees for Regression: Training
+
+Each predictor is trained to predict the last one's residuals.
+
+![w07_gradient_boosted_trees_regression.png](assets/w07_gradient_boosted_trees_regression.png "w07_gradient_boosted_trees_regression.png")
+
+For classification, the residuals are calculated as the difference between the class probabilities.[^6]
+
+### Shrinkage
+
+- The prediction of each tree in the ensemble is shrinked after it is multiplied by a learning rate $\eta$.
+- Similarly to `AdaBoost`, there's a trade-off between eta and the number of estimators:
+  - less learning rate => a lot of estimators
+
+![w07_gradient_boosted_trees_eta.png](assets/w07_gradient_boosted_trees_eta.png "w07_gradient_boosted_trees_eta.png")
+
+### Gradient Boosted Trees for Regression: Prediction
+
+- Regression:
+  - $y_{pred} = y_1 + \eta r_1 + \ldots + \eta r_N$
+  - in sklearn: [`GradientBoostingRegressor`](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.GradientBoostingRegressor.html).
+
+- Classification:
+  - in sklearn: [`GradientBoostingClassifier`](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.GradientBoostingClassifier.html).
+
+### Gradient Boosting: Cons
+
+Each CART is trained to find the best split points and features. This produces two problems:
+
+- this is an exhaustive search procedure;
+- may lead to CARTs using the same split points and maybe the same features.
+
+### Stochastic Gradient Boosting
+
+- In sklearn we can use the classes `GradientBoostingRegressor` and `GradientBoostingClassifier`. Making them stochastic is done by changing the values for the parameters `subsample` and `max_features`.
+- Each tree is trained on a random subset of rows of the training data.
+- The sampled instances are sampled without replacement.
+- When choosing split points the features are also sampled without replacement.
+- Benefits:
+  - Further ensemble diversity.
+  - Added bias to the ensemble of trees, thus ability to reduce overfitting.
+
+![w07_stochastic_gradient_boosting.png](assets/w07_stochastic_gradient_boosting.png "w07_stochastic_gradient_boosting.png")
+
+[^1]: <https://victorzhou.com/blog/information-gain/>
+[^2]: <https://www.learndatasci.com/glossary/gini-impurity/>
+[^3]: <https://towardsdatascience.com/entropy-how-decision-trees-make-decisions-2946b9c18c8>
+[^4]: <https://stats.stackexchange.com/questions/380023/how-can-we-explain-the-fact-that-bagging-reduces-the-variance-while-retaining-t>
+[^5]: <https://stats.stackexchange.com/questions/88980/why-on-average-does-each-bootstrap-sample-contain-roughly-two-thirds-of-observat>
+[^6]: <https://affine.ai/gradient-boosting-trees-for-classification-a-beginners-guide/>
