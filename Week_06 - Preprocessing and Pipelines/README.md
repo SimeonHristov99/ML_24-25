@@ -214,10 +214,10 @@ python task06.py
 ```
 
 ```console
-Without scaling: 0.75
-Without scaling: {'logreg__C': np.float64(0.2113157894736842)}
-With scaling: 0.8474999999999999
-With scaling: {'logreg__C': np.float64(0.1061578947368421)}
+Without scaling: 0.665
+Without scaling: {'logreg__C': 0.2113157894736842}
+With scaling: 0.875
+With scaling: {'logreg__C': 0.1061578947368421}
 ```
 
 ## Task 07
