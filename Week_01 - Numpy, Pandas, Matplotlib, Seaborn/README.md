@@ -505,7 +505,7 @@ pop = [31.889923, 3.600523, 33.333216, 12.420476, 40.301927, 20.434176, 8.199783
 
 recreate the below plot. Store `pop` as a numpy array **and double every value in it**, before starting to create the plot.
 
-![w01_matplotlib_ex9.png](../assets/w01_matplotlib_ex9.png "w01_matplotlib_ex9.png")
+![w01_task18_fh.png](../assets/w01_task18_fh.png "w01_task18_fh.png")
 
 **Acceptance criteria:**
 
