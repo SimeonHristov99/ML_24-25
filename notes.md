@@ -3392,7 +3392,7 @@ This is because:
         # this is one combination
   ```
 
-2. For every single one combination we do a `10`-fold cross-validation to get the mean metric. This means that every single one of the paramter combinations is the same while we shift the trainig and testing sets `10` times.
+2. For every single one combination we do a `10`-fold cross-validation to get the mean metric. This means that every single one of the paramter combinations is the same while we shift the training and testing sets `10` times.
 
 </details>
 
@@ -4251,6 +4251,10 @@ For an intended output $t = ±1$ and a classifier score $y$, the hinge loss of t
 
 $${hidge(y)=\max(0,1-t\cdot y)}$$
 
+, where
+
+$$y = \mathbf{w}^\intercal \cdot \mathbf{x} - b$$
+
 Note that as we move to the right, towards the zone of correct predictions, the loss goes down.
 
 Which of the four loss functions makes sense for classification?
@@ -4457,6 +4461,8 @@ The yellow lines show the distances from the support vectors to the boundary.
 If the regularization strength is not too large, SVMs maximize the margin of linearly separable datasets. Unfortunately, most datasets are not linearly separable; in other words, we don't typically expect a training accuracy of `100%`.
 
 While these max margin ideas can be extended to non-separable data, we won't be using them here. You can think of this as another view on what we've already defined SVMs to be, which is the **hinge loss with L2 regularization**. As it turns out, they are mathematically equivalent.
+
+![w07_svm_formula.png](assets/w07_svm_formula.png "w07_svm_formula.png")
 
 Which of the following is a true statement about support vectors?
 
@@ -4838,7 +4844,7 @@ If the red squares represent the amount of errors we make for each sample, then:
 - Which of the following correctly describes the relationship between $\hat{f}$'s complexity and $\hat{f}$'s bias and variance terms?
 
 ```text
-A. As the complexity of decreases, the bias term decreases while the variance term increases.
+A. As the complexity of decreases, the bias term increases while the variance term decreases.
 B. As the complexity of decreases, both the bias and the variance terms increase.
 C. As the complexity of increases, the bias term increases while the variance term decreases.
 D. As the complexity of increases, the bias term decreases while the variance term increases.
@@ -4857,10 +4863,10 @@ Answer: D
     ![w07_checkpoint.png](assets/w07_checkpoint.png "w07_checkpoint.png")
 
 ```text
-A. $A$ suffers from high bias and overfits the training set.
-B. $A$ suffers from high variance and underfits the training set.
-C. $B$ suffers from high bias and underfits the training set.
-D. $B$ suffers from high variance and underfits the training set.
+A. (A) suffers from high bias and overfits the training set.
+B. (A) suffers from high variance and underfits the training set.
+C. (B) suffers from high bias and underfits the training set.
+D. (B) suffers from high variance and underfits the training set.
 ```
 
 <details>
@@ -4882,7 +4888,7 @@ Answer: C. Model B is not able to capture the nonlinear dependence of `mpg` on `
   - noise is unpredictable.
 - Solution: split the data into training and testing sets:
   - fit $\hat{f}$ to the training set and evaluate the its error on the **unseen** test set;
-  - the generalization error of $\hat{f}$ $\approx$ etst set error of $\hat{f}$.
+  - the generalization error of $\hat{f}$ $\approx$ test set error of $\hat{f}$.
   - there's a problem with this approach, though: the test set should not be used until we're confident about $\hat{f}$'s performance.
     - also, we can't evaluate $\hat{f}$ on the training set as that would give a biased estimate ($\hat{f}$ has already seen all training points).
 
@@ -4902,7 +4908,7 @@ The error is then calculated as the mean of the cross-validation results:
 
 #### Diagnose Variance Problems
 
-- If CV error of $\hat{f}$ > trainig set error of $\hat{f}$: $\hat{f}$ suffers from **high variance**;
+- If CV error of $\hat{f}$ > training set error of $\hat{f}$: $\hat{f}$ suffers from **high variance**;
 - $\hat{f}$ is said to have **overfit** the training set. To remedy overfitting:
   - decrease model complexity;
     - decrease max tree depth, increase min samples per leaf, decrease number of neurons.
@@ -4910,12 +4916,12 @@ The error is then calculated as the mean of the cross-validation results:
 
 #### Diagnose Bias Problems
 
-- If CV error of $\hat{f} \approx$ trainig set error of $\hat{f}$ and this error is much greater than the disired error: $\hat{f}$ suffers from **high bias**;
+- If CV error of $\hat{f} \approx$ training set error of $\hat{f}$ and this error is much greater than the disired error: $\hat{f}$ suffers from **high bias**;
 - $\hat{f}$ is said to have **underfit** the training set. To remedy underfitting:
   - increase model complexity;
     - increase max tree depth, decrease min samples per leaf, increase number of neurons, increase number of layers.
   - gather more relevant features;
-  - feature enginneering.
+  - feature engineering.
 
 - What do we deduct from the below outputs - overfitting or underfitting?
 
