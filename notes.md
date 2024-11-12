@@ -4438,7 +4438,7 @@ In the figure below, support vectors are shown with yellow circles around them.
 
 ![w07_example_support_vectors.png](assets/w07_example_support_vectors.png "w07_example_support_vectors.png")
 
-Another way of defining support vectors is that they include the examples (incorrectly and incorrectly classified) that are *close enough* to the boundary.
+Another way of defining support vectors is that they include the examples (correctly and incorrectly classified) that are *close enough* to the boundary.
 
 How close is considered *close enough* is controlled by the regularization strength.
 
