@@ -4835,7 +4835,13 @@ $$\hat{f} = bias^2 + variance + irreducible\ error$$
 
 #### Bias-Variance Tradeoff: A Visual Explanation
 
-If the red squares represent the amount of errors we make for each sample, then:
+Let's say that we want to create a model that predicts `2D` points.
+
+The inner-most blue circle of the below diagrams represents perfect predictions with `0` error (in a certain threshold (the value of which does not matter)). The squares represent individual predictions.
+
+The `x` and `y` axes represent the errors made for each coordinate - the center represents perfect predictions, so the errors are near `0`.
+
+Then, we can visualize the bias-variance tradeoff with the following `4` diagrams:
 
 ![w07_bv_diagram2.png](assets/w07_bv_diagram2.png "w07_bv_diagram2.png")
 
