@@ -297,7 +297,7 @@ The following plot is generated:
 
 **Description:**
 
-Build a pipeline to impute missing values, scale features, and perform hyperparameter tuning of a logistic regression model. The aim is to find the best parameters and accuracy when predicting whether a song has a genre of `Rock`.
+Build a pipeline to impute missing values, scale features, and perform hyperparameter tuning of a logistic regression model on the `music_dirty_missing_vals.txt` dataset. The aim is to find the best parameters and accuracy when predicting whether a song has a genre of `Rock`.
 
 Use `75%` of the data for training, setting the seed value to `42`. Perform grid search on two parameters - `solver` and `C`. For `solver` check the values: `newton-cg`, `saga` and `lbfgs`, for `C`: `10` numbers separated on equal distance in the range `[0.001, 1.0]`.
 
@@ -312,6 +312,6 @@ python task10.py
 ```
 
 ```console
-Tuned Logistic Regression Parameters: {'logreg__C': np.float64(0.334), 'logreg__solver': 'newton-cg'}
-Accuracy: 0.88
+Tuned Logistic Regression Parameters: {'logreg__C': 0.112, 'logreg__solver': 'newton-cg'}
+Accuracy: 0.86
 ```
