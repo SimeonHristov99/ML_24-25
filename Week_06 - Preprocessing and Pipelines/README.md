@@ -162,7 +162,7 @@ Preprocess the features of the `music_clean.csv` dataset and build a lasso regre
 
 Use 70% of the data for training the model. Set the `alpha` parameter of the lasso model to `0.5`. Set any random seeds to `42`.
 
-Output the first five rows of the preprocessed dataframe.
+Output the first five rows of dataframe before scaling.
 
 Calculate and print the $R^2$ score of two pipelines - with and without scaling. Interpret the results - do the models perform well?
 
