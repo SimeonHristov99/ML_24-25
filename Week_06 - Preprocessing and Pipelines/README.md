@@ -116,7 +116,7 @@ Build a pipeline that contains two steps:
 - one, called "imputer", for imputing missing values using an appropriate strategy;
 - another, called "knn", for building a `KNN` model for the classification of song `genre` using the closest `3` neighbors.
 
-Create a pipeline and apply it on the preprocessed music dataset from the previous task. Use 70% of the data. Set any random seeds to 42.
+Create a pipeline and apply it on the label encoded music dataset from the previous task. Use 70% of the data. Set any random seeds to 42.
 
 Output the classification report, display the confusion matrix and ROC curve.
 
@@ -162,7 +162,7 @@ Preprocess the features of the `music_clean.csv` dataset and build a lasso regre
 
 Use 70% of the data for training the model. Set the `alpha` parameter of the lasso model to `0.5`. Set any random seeds to `42`.
 
-Output the first five rows of the preprocessed dataframe.
+Output the first five rows of dataframe before scaling.
 
 Calculate and print the $R^2$ score of two pipelines - with and without scaling. Interpret the results - do the models perform well?
 
@@ -297,7 +297,7 @@ The following plot is generated:
 
 **Description:**
 
-Build a pipeline to impute missing values, scale features, and perform hyperparameter tuning of a logistic regression model. The aim is to find the best parameters and accuracy when predicting whether a song has a genre of `Rock`.
+Build a pipeline to impute missing values, scale features, and perform hyperparameter tuning of a logistic regression model on the `music_dirty_missing_vals.txt` dataset. The aim is to find the best parameters and accuracy when predicting whether a song has a genre of `Rock`.
 
 Use `75%` of the data for training, setting the seed value to `42`. Perform grid search on two parameters - `solver` and `C`. For `solver` check the values: `newton-cg`, `saga` and `lbfgs`, for `C`: `10` numbers separated on equal distance in the range `[0.001, 1.0]`.
 
@@ -312,6 +312,6 @@ python task10.py
 ```
 
 ```console
-Tuned Logistic Regression Parameters: {'logreg__C': np.float64(0.334), 'logreg__solver': 'newton-cg'}
-Accuracy: 0.88
+Tuned Logistic Regression Parameters: {'logreg__C': 0.112, 'logreg__solver': 'newton-cg'}
+Accuracy: 0.86
 ```

@@ -601,7 +601,7 @@ Accuracy achieved by using the gini index: 0.947
 
 **Description:**
 
-Train a regression tree to predict the `mpg` (miles per gallon) consumption of cars in the `auto-mpg` dataset using the available numeric features.
+Train a regression tree to predict the `mpg` (miles per gallon) consumption of cars in the `auto.csv` dataset using the available numeric features.
 
 Split the dataset into `80%` training and `20%` testing data using a random seed of `1`. When creating the tree, set the maximum depth to `8`, the random state to `3` and make sure that all leafs contain at least `13%` of the data (see the `min_samples_leaf` parameter).
 
@@ -628,7 +628,7 @@ Linear Regression test set RMSE: 3.93
 
 **Description:**
 
-Define a regression tree that will be used to predict the `mpg` consumption of cars from the `auto` dataset using all available features. One-hot the `origin` column and output the first `5` and last `5` rows of the feature dataset.
+Define a regression tree that will be used to predict the `mpg` consumption of cars from the `auto.csv` dataset using all available features. One-hot the `origin` column and output the first `5` and last `5` rows of the feature dataset.
 
 Model requirements:
 

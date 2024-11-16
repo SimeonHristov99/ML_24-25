@@ -1922,13 +1922,20 @@ This section focuses on the first point - how do we make our code easier to read
 You can automatically handle the first point - let's see how to install and use the `yapf` formatter extension in VS Code.
 
 1. Open the `Extensions` tab, either by using the UI or by pressing `Ctrl + Shift + x`. You'll see somthing along the lines of:
-  ![w01_yapf_on_vscode.png](./assets/w01_yapf_on_vscode.png "w01_yapf_on_vscode.png")
+  
+![w01_yapf_on_vscode.png](./assets/w01_yapf_on_vscode.png "w01_yapf_on_vscode.png")
+
 2. Search for `yapf`:
-  ![w01_yapf_on_vscode_1.png](./assets/w01_yapf_on_vscode_1.png "w01_yapf_on_vscode_1.png")
+
+![w01_yapf_on_vscode_1.png](./assets/w01_yapf_on_vscode_1.png "w01_yapf_on_vscode_1.png")
+
 3. Select and install it:
-  ![w01_yapf_on_vscode_2.png](./assets/w01_yapf_on_vscode_2.png "w01_yapf_on_vscode_2.png")
+
+![w01_yapf_on_vscode_2.png](./assets/w01_yapf_on_vscode_2.png "w01_yapf_on_vscode_2.png")
+
 4. After installing, please apply it on every Python file. To do so, press `F1` and type `Format Document`. The script would then be formatted accordingly.
-  ![w01_yapf_on_vscode_3.png](./assets/w01_yapf_on_vscode_3.png "w01_yapf_on_vscode_3.png")
+
+![w01_yapf_on_vscode_3.png](./assets/w01_yapf_on_vscode_3.png "w01_yapf_on_vscode_3.png")
 
 # Week 02 - Machine learning with scikit-learn
 
@@ -3903,7 +3910,6 @@ parameters = {'knn__n_neighbors': np.arange(1, 50)}
 
 ### The size of our datase
 
-
 - Fewer features = a simpler model and can reduce training time.
 - Some models, such as Artificial Neural Networks, require a lot of data to perform well.
 
@@ -4049,7 +4055,6 @@ In the left figure, there's no single line that separates the red and blue examp
 <summary>What is a dot-product of two vectors?</summary>
 
 The sum of the element-wise multiplication.
-
 
 ```python
 import numpy as np
@@ -4231,7 +4236,6 @@ Here's how the loss used by logistic regression looks like:
 
 ![w07_loss_logistic.png](assets/w07_loss_logistic.png "w07_loss_logistic.png")
 
-
 <details>
 
 <summary>What was the loss function for logistic regression?</summary>
@@ -4241,7 +4245,6 @@ Binary cross entropy / Log loss:
 $\text{Log Loss} = \sum_{(x,y)\in D} -y\log(y') - (1 - y)\log(1 - y')$
 
 </details>
-
 
 And here is the [`hinge loss`](https://en.wikipedia.org/wiki/Hinge_loss) used by support vector machines in comparison:
 
@@ -4438,7 +4441,7 @@ In the figure below, support vectors are shown with yellow circles around them.
 
 ![w07_example_support_vectors.png](assets/w07_example_support_vectors.png "w07_example_support_vectors.png")
 
-Another way of defining support vectors is that they include the examples (incorrectly and incorrectly classified) that are *close enough* to the boundary.
+Another way of defining support vectors is that they include the examples (correctly and incorrectly classified) that are *close enough* to the boundary.
 
 How close is considered *close enough* is controlled by the regularization strength.
 
@@ -4835,7 +4838,13 @@ $$\hat{f} = bias^2 + variance + irreducible\ error$$
 
 #### Bias-Variance Tradeoff: A Visual Explanation
 
-If the red squares represent the amount of errors we make for each sample, then:
+Let's say that we want to create a model that predicts `2D` points.
+
+The inner-most blue circle of the below diagrams represents perfect predictions with `0` error (in a certain threshold (the value of which does not matter)). The squares represent individual predictions.
+
+The `x` and `y` axes represent the errors made for each coordinate - the center represents perfect predictions, so the errors are near `0`.
+
+Then, we can visualize the bias-variance tradeoff with the following `4` diagrams:
 
 ![w07_bv_diagram2.png](assets/w07_bv_diagram2.png "w07_bv_diagram2.png")
 
