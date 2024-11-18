@@ -182,6 +182,65 @@
     - [Gradient Boosted Trees for Regression: Prediction](#gradient-boosted-trees-for-regression-prediction)
     - [Gradient Boosting: Cons](#gradient-boosting-cons)
     - [Stochastic Gradient Boosting](#stochastic-gradient-boosting)
+- [Week 08 - Unsupervised Learning](#week-08---unsupervised-learning)
+  - [What is unsupervised learning?](#what-is-unsupervised-learning)
+  - [Supervised vs unsupervised learning](#supervised-vs-unsupervised-learning)
+  - [The `K-Means Clustering` algorithm](#the-k-means-clustering-algorithm)
+  - [Evaluating the quality of a cluster](#evaluating-the-quality-of-a-cluster)
+    - [Cross Tabulation](#cross-tabulation)
+    - [Inertia](#inertia)
+    - [How many clusters to choose?](#how-many-clusters-to-choose)
+  - [Transforming features for better clusterings](#transforming-features-for-better-clusterings)
+    - [The Piedmont wines dataset](#the-piedmont-wines-dataset)
+    - [Clusters vs. varieties](#clusters-vs-varieties)
+    - [Feature variances](#feature-variances)
+    - [`StandardScaler`](#standardscaler)
+  - [`sklearn` preprocessing steps](#sklearn-preprocessing-steps)
+  - [Visualization communicates insight](#visualization-communicates-insight)
+  - [A higherarchy of groups](#a-higherarchy-of-groups)
+  - [Eurovision scoring dataset](#eurovision-scoring-dataset)
+  - [`Agglomerative` hiearchical clustering](#agglomerative-hiearchical-clustering)
+  - [Implementing using `scipy`](#implementing-using-scipy)
+  - [Cluster labels in hierarchical clustering](#cluster-labels-in-hierarchical-clustering)
+  - [Dendrograms show cluster distances](#dendrograms-show-cluster-distances)
+  - [Distance between clusters](#distance-between-clusters)
+  - [Extracting cluster labels](#extracting-cluster-labels)
+  - [Checkpoint](#checkpoint-3)
+    - [Task 1](#task-1)
+    - [Task 2](#task-2)
+  - [`t-SNE` for 2-dimensional maps](#t-sne-for-2-dimensional-maps)
+    - [What is `t-SNE`?](#what-is-t-sne)
+    - [`t-SNE` on the iris dataset](#t-sne-on-the-iris-dataset)
+    - [`t-SNE` in `sklean`](#t-sne-in-sklean)
+    - [`t-SNE` has only `fit_transform()`](#t-sne-has-only-fit_transform)
+    - [`t-SNE` learning rate](#t-sne-learning-rate)
+  - [Dimension reduction / Dimensionality reduction](#dimension-reduction--dimensionality-reduction)
+  - [Principal Component Analysis (PCA)](#principal-component-analysis-pca)
+  - [Decorrelation](#decorrelation)
+  - [PCA follows the fit/transform pattern](#pca-follows-the-fittransform-pattern)
+  - [PCA features are not correlated](#pca-features-are-not-correlated)
+  - [Pearson correlation](#pearson-correlation)
+  - [Principal components](#principal-components)
+  - [PCA - Checkpoint](#pca---checkpoint)
+  - [Intrinsic dimention](#intrinsic-dimention)
+  - [Versicolor dataset](#versicolor-dataset)
+  - [Use PCA to identify intrinsic dimeonsion](#use-pca-to-identify-intrinsic-dimeonsion)
+  - [Intrinsic dimeonsion can be ambiguous](#intrinsic-dimeonsion-can-be-ambiguous)
+  - [PCA and standardization](#pca-and-standardization)
+  - [Summary: Dimension Reduction using PCA](#summary-dimension-reduction-using-pca)
+  - [Word frequency arrays](#word-frequency-arrays)
+  - [Sparse arrays and `csr_matrix`](#sparse-arrays-and-csr_matrix)
+  - [Non-negative matrix factorization (NMF)](#non-negative-matrix-factorization-nmf)
+  - [Example word-frequency array](#example-word-frequency-array)
+  - [NMF features](#nmf-features)
+  - [Use cases](#use-cases-1)
+  - [NMF - Checkpoint](#nmf---checkpoint)
+    - [Question 1](#question-1)
+    - [Question 2](#question-2)
+  - [NMF components are topics](#nmf-components-are-topics)
+  - [Grayscale images](#grayscale-images)
+  - [Encoding a collection of images](#encoding-a-collection-of-images)
+  - [Building recommender systems using NMF](#building-recommender-systems-using-nmf)
 
 # Week 01 - Numpy, Pandas, Matplotlib & Seaborn
 
@@ -5191,3 +5250,738 @@ Each CART is trained to find the best split points and features. This produces t
 [^4]: <https://stats.stackexchange.com/questions/380023/how-can-we-explain-the-fact-that-bagging-reduces-the-variance-while-retaining-t>
 [^5]: <https://stats.stackexchange.com/questions/88980/why-on-average-does-each-bootstrap-sample-contain-roughly-two-thirds-of-observat>
 [^6]: <https://affine.ai/gradient-boosting-trees-for-classification-a-beginners-guide/>
+
+# Week 08 - Unsupervised Learning
+
+## What is unsupervised learning?
+
+It represents a class of machine learning algorithms that find patterns in unlabelled data.
+
+Examples:
+
+- *clustering* customers by their purchases;
+- compressing the data using purchase patterns (*dimensionality reduction*).
+
+## Supervised vs unsupervised learning
+
+- *Supervised* learning finds patterns that best help in solving a prediction task.
+  - Example: classify tumors as benign or cancerous (given a set of *labels*).
+- Unsupervised learning finds patterns in data, but *without* a specific prediction task in mind.
+
+## The [`K-Means Clustering`](https://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html) algorithm
+
+- Finds clusters of samples.
+- Number of clusters must be specified when creating the model.
+- Let's see how it works in `1D`:
+
+![w08_kmeans_walk_through.png](assets/w08_kmeans_walk_through.png "w08_kmeans_walk_through.png")
+
+- And in `2D`:
+
+![w08_kmeans_2d.gif](assets/w08_kmeans_2d.gif "w08_kmeans_2d.gif")
+
+- New samples are assigned the label of the closest `centroid`.
+
+## Evaluating the quality of a cluster
+
+### Cross Tabulation
+
+- We can check the correspondence with the labels of the points in the training dataset.
+  - In other words, do the clusters correspond to the species?
+
+![w08_kmeans_quality1.png](assets/w08_kmeans_quality1.png "w08_kmeans_quality1.png")
+
+- We see that cluster `1` corresponds perfectly with the species `setosa`. On the other hand, while cluster `0` contains mainly `virginica` samples, there are also some `virginica` samples in cluster `2`.
+- The table displaying the unique values of `labels` vs the unique values of `species` is called a `cross-tabulation`.
+- We create it with [`pandas.crosstab`](https://pandas.pydata.org/docs/reference/api/pandas.crosstab.html) with the following code:
+
+```python
+import pandas as pd
+df = pd.DataFrame({'labels': labels, 'species': species})
+df
+```
+
+![w08_kmeans_quality2.png](assets/w08_kmeans_quality2.png "w08_kmeans_quality2.png")
+
+```python
+pd.crosstab(df['labels'], df['species'])
+```
+
+![w08_kmeans_quality3.png](assets/w08_kmeans_quality3.png "w08_kmeans_quality3.png")
+
+### Inertia
+
+- Having species information in the training set is very helpful. This is actually the same as having a labelled training set.
+- But how do we evaluate a clustering if the training set is not labelled?
+- Solution: **Inertia**!
+- Inertia measures how spread out the clusters are (*lower* is better).
+- It uses the distance of each sample to the centroid of its cluster.
+  - As per `sklearn`: "Inertia is the sum of squared distances of samples to their closest cluster center."
+- Available after `fit()` as the attribute `inertia_`.
+- `KMeans` attempts to minimize the inertia when choosing centroids.
+
+> **Note:** More clusters means lower inertia, but a high amount of clusters may not correspond to reality.
+
+### How many clusters to choose?
+
+- Visualize, visualize, visualize!
+
+**Approach 1:**
+
+- If the data is `1D` or `2D`, just create a scatter plot - it'll guide you to the best number of clusters.
+
+![w08_points_2d.png](assets/w08_points_2d.png "w08_points_2d.png")
+
+**Approach 2:**
+
+- Fit various number of clusters and plot their values against the inertia.
+- Choose an `elbow` point - a point after which there is little to no added value.
+- **Benefit:** does not depend on dimensionality.
+
+![w08_elbow.png](assets/w08_elbow.png "w08_elbow.png")
+
+## Transforming features for better clusterings
+
+### The [Piedmont wines dataset](https://archive.ics.uci.edu/dataset/109/wine)
+
+- 178 samples from 3 varieties of red wine: Barolo, Grignolino and Barbera.
+- Features measure:
+  - Chemical composition e.g. alchohol content.
+  - Visual properties like "color intensity".
+
+### Clusters vs. varieties
+
+If we run `KMeans` with three clusters, we would get clusters that don't correspond well with the wine varieties.
+
+![w08_wine.png](assets/w08_wine.png "w08_wine.png")
+
+This is because the wine features have very different variances. This is how the clusters look like for two of the features:
+
+![w08_wine_variances.png](assets/w08_wine_variances.png "w08_wine_variances.png")
+
+The model did its best, but the data points themselves are not that different from each other.
+
+### Feature variances
+
+- So, the problem we have to solve is that the features have values on a large scale.
+  - This is the same as saying that they have a wide spread of values.
+- The measurement for amount of spread of values is the **variance** (дисперсия).
+  - Compare the variance of `proline`  to the variance of the other features (obtained via [`pd.var`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.var.html)):
+
+  ![w08_wine_proline.png](assets/w08_wine_proline.png "w08_wine_proline.png")
+
+- We have to decrease the variance of the features and hope that we'll get points that are more grouped together.
+
+### [`StandardScaler`](https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html)
+
+- In `KMeans` clustering, the variance of a feature is directly proportional to its influence on the clustering algorithm.
+- `StandardScaler` transforms each feature to have a mean of `0` and a variance of `1`, giving each feature a chance.
+- Result: Much better grouping of points!
+
+![w08_wine_proline_scaled.png](assets/w08_wine_proline_scaled.png "w08_wine_proline_scaled.png")
+
+Effectively, we get a much better model:
+
+Before scaling:
+
+![w08_wine.png](assets/w08_wine.png "w08_wine.png")
+
+After scaling:
+
+![w08_wine_scaled.png](assets/w08_wine_scaled.png "w08_wine_scaled.png")
+
+## `sklearn` preprocessing steps
+
+- `StandardScaler` is one of several possible "data preprocessing" steps.
+- Others include: `MaxAbsScaler` and `Normalizer`.
+  - While `StandardScaler()` standardizes features by removing the mean and scaling to unit variance, `Normalizer()` rescales each sample independently of other samples so that its norm (`l1`, `l2` or `max`) equals `1`.
+
+## Visualization communicates insight
+
+- A huge part of the work of a data scientist / data analyst is communication insights to other people, esp. non-technical, stakeholder-like people.
+- We'll now discuss two unsupervised learning techniques for visualization:
+  - `Hierarchical clustering`;
+  - `t-SNE`: Creates a 2D map of a dataset.
+
+## A higherarchy of groups
+
+- We already know many hierarchical clustering from the real world.
+- Groups of living things can form a hierarchy.
+- Clusters are groups that are contained in one another.
+
+![w08_hc.png](assets/w08_hc.png "w08_hc.png")
+
+## [Eurovision scoring dataset](https://eurovision.tv/history/full-split-results)
+
+- 2D array of scores.
+- Rows are countries, columns are songs.
+
+![w08_evsn.png](assets/w08_evsn.png "w08_evsn.png")
+
+- If we run the data through a hierarchical clustering of voting countries, we get a tree-like diagram, called a `dendrogram`.
+- The dendrogram groups countries into larger and larger clusters. Many of those clusters are recongnizable as containing countries that:
+  - are close to one another geographically;
+  - have cultural ties;
+  - have political ties;
+  - belong to the same language group.
+
+![w08_example.png](assets/w08_example.png "w08_example.png")
+
+- Dendrograms are read from the bottom up.
+- Vertical lines represent clusters.
+
+## `Agglomerative` hiearchical clustering
+
+1. Every country is in a separate cluster.
+2. At each step, the two closest clusters are merged.
+3. Continue until all countires are in a single cluster.
+
+## Implementing using `scipy`
+
+We can use the functions from the [`scipy.cluster.hierarchy`](https://docs.scipy.org/doc/scipy/reference/cluster.hierarchy.html) module to perform agglomerative clustering:
+
+- `linkage`: to create the clusters;
+- `dendrogram`: to create the dendrogram plot.
+
+```python
+from scipy.cluster import hierarchy
+mergings = hierarchy.linkage(samples, method='complete')
+hierarchy.dendrogram(mergings, labels=country_names, leaf_rotation=90, leaf_font_size=6)
+plt.show()
+```
+
+**Checkpoint**
+
+<details>
+
+<summary>If there are 5 data samples, how many merge operations will occur in a hierarchical clustering?</summary>
+
+`4` merges. Look back in the dendrogram from Eurovision to see the tendency.
+
+</details>
+
+## Cluster labels in hierarchical clustering
+
+- How do we extract the clusters from intermediate stages of a hierarchical clustering?
+- An intermediate stage in the hierarchical clustering is specified by choosing a **height** on the dendrogram.
+- E.g. at height `15`:
+  - Bulgaria, Cyprus, Greece are one cluster;
+  - Armenia in a cluster on its own;
+  - Russia and Moldova are another.
+
+![w08_cluster_height.png](assets/w08_cluster_height.png "w08_cluster_height.png")
+
+- But what is the meaning of the height?
+
+## Dendrograms show cluster distances
+
+- Height on dendrogram = distance between merging clusters.
+- E.g. clusters with only Cyprus and Greece had distance approx. `6`.
+- When this cluster was merged with the cluster containing Bulgaria, the distance between them (the merged cluster and the cluster of Bulgaria) was `12`.
+
+![w08_cluster_distance.png](assets/w08_cluster_distance.png "w08_cluster_distance.png")
+
+## Distance between clusters
+
+- Defined by a `"linkage method"`.
+- In `complete` linkage: distance between clusters is the maximum distance between their samples. In other words, the distance between two clusters is defined by the distance between their farthest points.
+- Different linkage methods produce different hierarchical clusterings.
+
+![w08_linkage_options.png](assets/w08_linkage_options.png "w08_linkage_options.png")
+
+## Extracting cluster labels
+
+- Use the `fcluster()` function.
+- Returns a NumPy array of cluster labels.
+
+```python
+from scipy.cluster import hierarchy
+mergings = hierarchy.linkage(samples, method='complete')
+hierarchy.fcluster(mergings, 15, criterion='distance')
+labels
+```
+
+```console
+[ 9  8 11 20  2  1 17 14 ... ]
+```
+
+## Checkpoint
+
+### Task 1
+
+Consider the three clusters in the diagram. Which of the following statements are true?
+
+![w08_checkpoint1.png](assets/w08_checkpoint1.png "w08_checkpoint1.png")
+
+**A.** In single linkage, `Cluster 3` is the closest cluster to `Cluster 2`.
+
+**B.** In complete linkage, `Cluster 1` is the closest cluster to `Cluster 2`.
+
+1. Neither A, nor B.
+2. A only.
+3. B only.
+4. Both A and B.
+
+<details>
+
+<summary>Reveal answer</summary>
+
+Answer: `4. Both A and B.`
+
+</details>
+
+### Task 2
+
+Displayed is the dendrogram for the hierarchical clustering of the grain samples. If the hierarchical clustering were stopped at height `6` on the dendrogram, how many clusters would there be?
+
+![w08_checkpoint2.png](assets/w08_checkpoint2.png "w08_checkpoint2.png")
+
+<details>
+
+<summary>Reveal answer</summary>
+
+Answer: 3 - if we draw a horizontal line at `6`, we would see them.
+
+</details>
+
+## `t-SNE` for 2-dimensional maps
+
+### What is `t-SNE`?
+
+- An unsupervised learning method for visualization.
+- Stands for `t-distributed stochastic neighbor embedding`.
+- Maps samples to `2D` or `3D` space (essentially, reducing their dimensionality).
+- Map approximately preserves nearness of samples.
+- Great for inspecting high-dimensional datasets.
+
+### `t-SNE` on the iris dataset
+
+The dataset has `4` measurements, so samples are `4`-dimensional.
+
+Let's use `t-SNE` to map the samples to `2D` space. We won't give it information about the species of each sample.
+
+![w08_tsne_ex1.png](assets/w08_tsne_ex1.png "w08_tsne_ex1.png")
+
+We can see that the species were kept mostly separate.
+
+We also learn that there are two iris species - `versicolor` and `virginica`, whose samples are close together in space, meaning that it's **hard to distinguish one from the other**.
+
+### [`t-SNE` in `sklean`](https://scikit-learn.org/stable/modules/generated/sklearn.manifold.TSNE.html)
+
+```python
+from sklearn import manifold
+model = manifold.TSNE(learning_rate=100)
+transformed = model.fit_transform(samples)
+xs = transformed[:, 0]
+ys = transformed[:, 1]
+plt.scatter(xs, ys, c=species)
+plt.show()
+```
+
+### `t-SNE` has only `fit_transform()`
+
+- Only has a `fit_transform()` method (no `fit()` and no `transform()`).
+- Simultaneously fits the model and transforms the data.
+- Must start over again when there's new data.
+
+### `t-SNE` learning rate
+
+- The learning rate for `t-SNE` is usually in the range `[10.0, 1000.0]`.
+  - If too high, the data may look like a `ball` with any point approximately equidistant from its nearest neighbours.
+  - If too low, most points may look compressed in a dense cloud with few outliers.
+  - Basically, if the value is not ok, we'll get points that are bunched together.
+- Advice: Try values between `50` and `200`.
+
+Keep in mind that the results of applying `t-SNE` on the same features are different every time.
+
+- Piedmont wines, 3 runs, 3 different scatter plots, same data used:
+
+![w08_tsne_ex2.png](assets/w08_tsne_ex2.png "w08_tsne_ex2.png")
+
+## Dimension reduction / Dimensionality reduction
+
+- Finds patterns in data and uses these patterns to re-express the data in a compressed form.
+- Benefits:
+  - more efficient storage of large data (that can be [reconstructed](https://stats.stackexchange.com/questions/229092/how-to-reverse-pca-and-reconstruct-original-variables-from-several-principal-com) to its original form);
+  - faster computation when working with large data.
+  - less-informative, type `noise`, features are removed.
+
+## Principal Component Analysis (PCA)
+
+- Most popular dimensionality reduction technique.
+- Works in `2` steps:
+  1. Decorrelation.
+  2. Dimension reduction.
+
+## Decorrelation
+
+- Rotates data samples to be aligned with axes.
+- Shifts data samples so they have a mean of `0`.
+- No information is lost.
+  - data points are the same, it's just that they have been scaled.
+
+![w08_pca_ex1.png](assets/w08_pca_ex1.png "w08_pca_ex1.png")
+
+## [PCA](https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html) follows the fit/transform pattern
+
+- `fit()`: learns the transformation from given data;
+- `transform()`: applies the learned transformation;
+- `transform()`: can be applied to new data after being `fit()` on old data.
+- The rows of the transformed data correspond to samples.
+- The columns of the transformed data are called `PCA features`.
+
+## PCA features are not correlated
+
+- Features of dataset are often correlated, e.g. `total_phenols` and `od280`.
+- But, because the first step of applying PCA is to allign data with axes, the resulting PCA features are not correlated.
+
+![w08_pca_ex1.png](assets/w08_pca_ex1.png "w08_pca_ex1.png")
+
+## Pearson correlation
+
+- Measures linear correlation of features.
+- Value between `-1` and `1`.
+- Value of `0` means no linear correlation.
+- Can be retrieved via the [`corr`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.corr.html) method.
+
+![w08_correlation.png](assets/w08_correlation.png "w08_correlation.png")
+
+## Principal components
+
+- "Principal components" = the directions in which samples vary the most
+- The resulting table has the PCs order in descending order of their amount of variance. It is also known as the `eigenvector matrix`.
+
+![w08_pca_picture.png](assets/w08_pca_picture.png "w08_pca_picture.png")
+
+- Available as `components_` attribute of PCA object.
+- Each row defines displacement from mean.
+
+```python
+print(model.components_)
+```
+
+```console
+[[ 0.64116665  0.76740167]
+ [-0.76740167  0.64116665]]
+```
+
+![w08_pca_in_action.gif](assets/w08_pca_in_action.gif "w08_pca_in_action.gif")
+
+## PCA - Checkpoint
+
+Three scatter plots of the same point cloud are shown. Each scatter plot shows a different set of axes (in red). In which of the plots could the axes represent the principal components of the point cloud?
+
+![w08_pca_checkpoint.png](assets/w08_pca_checkpoint.png "w08_pca_checkpoint.png")
+
+<details>
+
+<summary>Reveal answer</summary>
+
+Answer: Both plot `1` and plot `3`.
+
+</details>
+
+## Intrinsic dimention
+
+- Consider `2` features: latitude and longitude at points along a flight path:
+
+```console
+latitude  longitude
+  50.529     41.513
+  50.360     41.672
+  50.196     41.835
+...
+```
+
+- Dataset *appears* to be `2`-dimensional.
+- But can approximated using only `1` feature: `displacement` along flight path:
+
+![w08_intrinsic_dim.png](assets/w08_intrinsic_dim.png "w08_intrinsic_dim.png")
+
+- So, the dataset is intrinsically `1`-dimensional.
+- Intrinsic dimension = number of features needed to approximate the dataset.
+- Essential idea behind dimeonsion reduction.
+- Answer the question: *What is the most compact representation of the samples?*.
+- Can be detected with PCA.
+
+## Versicolor dataset
+
+- Let's filter the iris dataset and leave only the `versicolor` samples.
+- If we plot the `3` features that measure them, we see that the samples lie close to a flat `2`-dimensional plane.
+- So, they can be approximated using `2` features.
+
+![w08_intrinsic_dim_iris.png](assets/w08_intrinsic_dim_iris.png "w08_intrinsic_dim_iris.png")
+
+## Use PCA to identify intrinsic dimeonsion
+
+- Scatter plots only work if samples have `2` or `3` features.
+- PCA identifies intrisic dimeonsion when samples have any number of features.
+- Intrinsic dimension = number of PCA features with significat variance.
+
+![w08_intrinsic_dim_pca1.png](assets/w08_intrinsic_dim_pca1.png "w08_intrinsic_dim_pca1.png")
+
+- PCA features are ordered by decreasing variance.
+- In our example, these are the first `2` PCA features.
+- Here's a `bar` diagram with their values. You can obtain them by using the `explained_variance_` attribute of a fitten `PCA` object.
+
+![w08_intrinsic_dim_pca2.png](assets/w08_intrinsic_dim_pca2.png "w08_intrinsic_dim_pca2.png")
+
+## Intrinsic dimeonsion can be ambiguous
+
+- Intrinsic dimeonsion is an idealization.
+- There is not always one correct answer.
+- Piedmont wines: could argue for `2`, or `3`, or more.
+
+![w08_intrinsic_dim_pca3.png](assets/w08_intrinsic_dim_pca3.png "w08_intrinsic_dim_pca3.png")
+
+## PCA and standardization
+
+<details>
+
+<summary>Should we standardize data before applying principal component analysis (PCA)?</summary>
+
+If some variables have a large variance and some small, PCA (maximizing variance) will load on the large variances. For example if you change one variable from `km` to `cm` (increasing its variance), it may go from having little impact to dominating the first principle component.
+
+- If you want your PCA to be independent of such rescaling, standardizing the variables will do that.
+- If the specific scale of your variables matters (in that you want your PCA to be in that scale), maybe you don't want to standardize.
+
+More on the topic [here](https://stats.stackexchange.com/questions/69157/why-do-we-need-to-normalize-data-before-principal-component-analysis-pca).
+
+</details>
+
+## Summary: Dimension Reduction using PCA
+
+- Represent the same data, using less features.
+- PCA:
+  - Orders features in decreasing order of variance.
+  - Assumes the low variance features are `noise`.
+  - Assumes the high variance features are informative.
+
+![w08_pca_summary.png](assets/w08_pca_summary.png "w08_pca_summary.png")
+
+## Word frequency arrays
+
+- Alternative implementation of PCA.
+- Rows represent documents, columns represent words.
+- Entries measure presence of each word in each document:
+  - Measurement can be count, tf-idf, etc.
+  - Only some of the words from the vocabulary appear in any one document, so most of the entries are `0`.
+
+![w08_wfa.png](assets/w08_wfa.png "w08_wfa.png")
+
+## Sparse arrays and `csr_matrix`
+
+- Arrays in which most entries are `0`, are called `sparse` arrays.
+- They can be represented using a special type of an array, called [`csr_matrix`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.csr_matrix.html) (Compressed Sparse Row matrix).
+  - ["Remembers"](https://en.wikipedia.org/wiki/Sparse_matrix) only the non-zero entries.
+
+![w08_tf_idf.png](assets/w08_tf_idf.png "w08_tf_idf.png")
+
+- scikit-learn's `PCA` doesn't support `csr_matrix`, but [`TruncatedSVD`](https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.TruncatedSVD.html) does!
+- Use `TruncatedSVD` when working with sparse matrices. Its interface is the same as the one `PCA` has.
+
+## Non-negative matrix factorization (NMF)
+
+- Dimension reduction technique.
+- NMF models are interpretable (unlike PCA), i.e. easy to explain.
+- One requirement: all sample features must be non-negative.
+- It expresses documents as combinations of topics (or `themes`):
+
+![w08_nmf_1.png](assets/w08_nmf_1.png "w08_nmf_1.png")
+
+- and images as combination of patterns:
+
+![w08_nmf_2.png](assets/w08_nmf_2.png "w08_nmf_2.png")
+
+- In scikit-learn it's implemented as [`NMF`](https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.NMF.html) and follows the standard `fit()` and `transform()` pattern.
+- Works with normal (non-sparse) NumPy arrays and with `csr_matrix`.
+
+## Example word-frequency array
+
+- Word frequency array / matrix, 4 words, many documents.
+- Presence of words in each document is measured using `tf-df`:
+  - `tf` = `term frequency` = number of times a word is seen in a document / number of words in the document;
+
+  $$tf(t,d) = \frac{f_{t,d}}{\displaystyle\sum_{t^\prime \isin d} f_{t^\prime, d}}$$
+
+  - `idf` = `inverted document frequency` = number of documents / number of documents containing word.
+
+  $$idf(t,D) = \frac{N}{\vert \{ d \isin D : t \isin d \} \vert}$$
+
+![w08_nmf_3.png](assets/w08_nmf_3.png "w08_nmf_3.png")
+
+## NMF features
+
+- NMF features are also non-negative.
+- Can be used to reconstruct the samples by ***matrix multiplying*** them with the identified components.
+- This is the "**M**atrix **F**actorization" part in `NMF`.
+
+```python
+print(samples[i])
+```
+
+```console
+[  0.12  0.18  0.32  0.14]
+```
+
+```python
+print(nmf_features[i])
+```
+
+```console
+[  0.15  0.12]
+```
+
+![w08_nmf_4.png](assets/w08_nmf_4.png "w08_nmf_4.png")
+
+## Use cases
+
+- Word frequencies in each document.
+- Images encoded as arrays.
+- Audio spectograms.
+- Purchase histories on e-commerce sites.
+
+## NMF - Checkpoint
+
+### Question 1
+
+Which of the following 2-dimensional arrays are examples of non-negative data?
+
+1. A tf-idf word-frequency array.
+2. An array daily stock market price movements (up and down), where each row represents a company.
+3. An array where rows are customers, columns are products and entries are 0 or 1, indicating whether a customer has purchased a product.
+
+<details>
+
+<summary>Reveal answer</summary>
+
+Answer: `1` and `3`
+
+Stock prices can go down as well as up, so an array of daily stock market price movements is not an example of non-negative data.
+
+</details>
+
+### Question 2
+
+The components of an NMF model are given. If the NMF feature values of a sample are `[2, 1]`, then which of the following is most likely to represent the original sample?
+
+```python
+[[1, 0.5, 0], [0.2, 0.1, 2.1]]
+```
+
+1. `[2.2, 1.1, 2.1]`.
+2. `[0.5, 1.6, 3.1]`.
+3. `[-4.0, 1.0, -2.0]`.
+
+<details>
+
+<summary>Reveal answer</summary>
+
+Answer: `1`.
+
+We have matrix multiply the features with the components:
+
+```python
+nmf_features = np.array([2, 1])
+components = np.array([[1, 0.5, 0], [0.2, 0.1, 2.1]])
+np.dot(nmf_features, components)
+```
+
+</details>
+
+## NMF components are topics
+
+Example:
+
+- Word-frequency array of articles (tf-idf).
+- 20,000 scientific articles (rows).
+- 800 words (columns).
+
+![w08_nmf_5.png](assets/w08_nmf_5.png "w08_nmf_5.png")
+
+If we apply NMF with `10` components to this data, we would get a resulting matrix with shape `(10, 800)`.
+
+Choosing a component and looking at which words have the highest values, we see that they fit a theme: the words are `species`, `plant`, `plants`, `genetic`, `evolution` and `life`.
+
+![w08_nmf_6.png](assets/w08_nmf_6.png "w08_nmf_6.png")
+
+The same happens if any other component is considered.
+
+![w08_nmf_7.png](assets/w08_nmf_7.png "w08_nmf_7.png")
+
+So, when applied to text-based documents:
+
+- `NMF` components represent topics;
+- `NMF` features combine topics into documents.
+
+For images, NMF components are parts of images:
+
+![w08_nmf_8.png](assets/w08_nmf_8.png "w08_nmf_8.png")
+
+<details>
+
+<summary>How can we represent a collection of images as a non-negative array?</summary>
+
+Answer: Using their pixels.
+
+## Grayscale images
+
+- Grayscale image = no colors, only shares of gray.
+- They can be used to measure pixel brightness by having a value between `0` and `1` (`0` is black).
+- Here's an 8x8 grayscale image of the moon, written as an array:
+
+![w08_nmf_9.png](assets/w08_nmf_9.png "w08_nmf_9.png")
+
+## Encoding a collection of images
+
+- Encode each image as 1D flat array.
+- Encode the collection as 2D array.
+- Each row corresponds to an image.
+- Each column corresponds to a pixel.
+- We can then apply NMF.
+
+![w08_nmf_10.png](assets/w08_nmf_10.png "w08_nmf_10.png")
+</details>
+
+## Building recommender systems using NMF
+
+Image you're a data scientist at a large online newspaper.
+
+You've been tasked to recommend articles similar to the article being currently read by a customer.
+
+<details>
+
+<summary>How would you go about doing this?</summary>
+
+Similar articles should have similar topics!
+
+1. Convert the articles into a word-frequency array.
+2. We can extract the different topics by applying NMF to the array.
+3. The extracted topics themselves are just vectors.
+4. We can compute how close those vectors are to one another, by using the consine similarity.
+5. Whichever vectors are the closest to the one obtained by the current article, would represent the articles we should return to the user.
+
+Recap of how cosine similarity works:
+
+![w08_consine_similarity.png](assets/w08_consine_similarity.png "w08_consine_similarity.png")
+
+- Uses the angle between the lines.
+- Higher values means more similar.
+- Maximum value is `1`, when angle is `0` degrees.
+
+Here's how this can be done via `scikit-learn`:
+
+```python
+from sklearn.preprocessing import normalize
+norm_features = normalize(nmf_features)
+# if the current document has index 23
+current_article = norm_features[23]
+similarities = norm_features.dot(current_article)
+print(similarities)
+```
+
+```console
+[ 0.7150569  0.26349967 ..., 0.20323616  0.05047817]
+```
+
+</details>
