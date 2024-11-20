@@ -240,11 +240,11 @@ Automatically obtained coefficients: [-9.28965170e-02  4.87149552e-02 -4.0599795
 
 Here's how the logic loss can be calculated mathematically:
 
-$$\ln(1 + e^{-raw\_model\_output})$$
+$$\ln(1 + e^{-raw\ model\ output})$$
 
 And here's how the hinge loss can be calculated mathematically:
 
-$$max(0, 1 - raw\_model\_output)$$
+$$max(0, 1 - raw\ model\ output)$$
 
 Implement the above expressions as two functions - `log_loss(raw_model_output)` and `hinge_loss(raw_model_output)`.
 
