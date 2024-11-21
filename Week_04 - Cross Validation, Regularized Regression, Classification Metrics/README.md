@@ -65,7 +65,7 @@ and the following plot is generated:
 
 **Description:**
 
-Fit a Lasso regression model to the sales dataset and output and plot the model's coefficients. Use the full data to train the model. Analyze the graph. Which is the most important to predict `sales`?
+Fit a Lasso regression model to the sales dataset and output and plot the model's coefficients. Use only the numeric features to train the model. Analyze the graph. Which is the most important numeric feature to predict `sales`?
 
 **Acceptance criteria:**
 
