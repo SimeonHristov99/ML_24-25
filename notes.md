@@ -2761,7 +2761,7 @@ The result is a list of tuples of arrays with training and testing indices. In t
 - in practice, you wouldn't call `kf.split` directly. Instead, you would pass the `kf` object to `cross_val_score`. It accepts a model, feature data and target data as the first three positional arguments. We also specify the number of folds by setting the keyword argument `cv` equal to our `kf` variable.
 
 ```python
-cv_results = cross_val_score(linear_reg, X, y, cv=kv)
+cv_results = cross_val_score(linear_reg, X, y, cv=kf)
 print(cv_results)
 
 # we can calculate the 95% confidence interval passing our results followed by a list containing the upper and lower limits of our interval as decimals 
