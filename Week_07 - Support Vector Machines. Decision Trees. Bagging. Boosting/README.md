@@ -359,7 +359,7 @@ The following plots get generated:
 
 **Description:**
 
-Repeat the previous exercise with a **non-linear** SVM. Create a plot of the binary classifier for class `1` vs. rest.
+Repeat the previous exercise with a **non-linear** SVM. Like in previous task, set `C=100`. Create a plot of the binary classifier for class `1` vs. rest.
 
 **Acceptance criteria:**
 
