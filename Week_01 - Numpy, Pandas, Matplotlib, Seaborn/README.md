@@ -1003,7 +1003,7 @@ After throw step = 51
 
 **Description:**
 
-Let's keep track of the number of the step you're currently on while making this random walk. Output the change in the step number if you toss the dice for `100` times starting from step `0`.
+Using the algorithm from the previous task, keep track of the number of the step you're currently on while making this random walk. Output the change in the step number if you toss the dice for `100` times starting from step `0`.
 
 Set the `seed` parameter to `123`.
 
