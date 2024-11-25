@@ -71,6 +71,7 @@ Answer the following question in a comment: *What's a good number of clusters in
 **Acceptance criteria:**
 
 1. The test case passes.
+2. A comment is written with an answer to the question in the description.
 
 **Test case:**
 
