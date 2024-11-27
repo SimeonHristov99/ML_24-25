@@ -83,7 +83,19 @@ Please follow the instructions in one of the following two folders:
 
 ### How will I be graded?
 
-There will be two homeworks and a project. No exams are planned.
+There will be two homeworks, a project and a discussion. No exams are planned.
+
+## What is "the discussion"?
+
+- The discussion is done after the defense of the project on the date of the final exam.
+- It forms **50%** of the final grade.
+- If I'm available to tune in for the final, I'll be asking questions (some will be in an interview style) regarding the topics I've covered.
+- Example questions:
+  - Tell me everything you know about boosting?
+  - How can we deal with missing values?
+  - What's an important step to do when splitting data for a classification problem?
+- The complexity of the questions will be inversely proportional to the number of submitted "For Home" weeks. More submissions => easier questions (from my side).
+  - I'll ask no questions if all "For Home" weeks are submitted.
 
 ### Who has more information about the theory exam?
 
@@ -92,3 +104,7 @@ There will be no theory exam(s).
 ### When will project topics be provided?
 
 Two weeks before the end of the semester.
+
+### Can I submit my own project idea?
+
+Yes. I'll let you know when there's a submission form for that. Note that in order for you to start working on your idea, it has to be approved by us.
