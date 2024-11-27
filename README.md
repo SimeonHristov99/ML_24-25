@@ -85,7 +85,7 @@ Please follow the instructions in one of the following two folders:
 
 There will be two homeworks, a project and a discussion. No exams are planned.
 
-## What is "the discussion"?
+### What is "the discussion"?
 
 - The discussion is done after the defense of the project on the date of the final exam.
 - It forms **50%** of the final grade.
