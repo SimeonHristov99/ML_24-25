@@ -6274,7 +6274,7 @@ Challenge: fill in the below patterns:
 | [0-9]         | numbers from 0 to 9                               | 9                  |
 | [a-zA-Z\-\.]+ | upper and lowercase English alphabet, `-` and `.` | `'My-Website.com'` |
 | (a-z)         | `a`, `-` and `z`                                  | 'a-z'              |
-| (\s+|,)       | spaces or a comma                                 | `', '`             |
+| (\s+\|,)       | spaces or a comma                                 | `', '`             |
 
 </details>
 
