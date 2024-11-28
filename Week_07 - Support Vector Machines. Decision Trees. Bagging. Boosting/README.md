@@ -738,7 +738,7 @@ Model requirements:
 
 Output the `f1-score` of the bagging classifier on the test set and compare it to the `f1-score` of a single decision tree. For this, prepare the data as per the following requirements:
 
-- form a training set with `80%` of the initial data;
+- form a training set with `70%` of the initial data with a random state of `1`;
 - fill in any missing values with the mode of the column that has them;
 - because we're using decision trees, scaling won't be needed;
 - one-hot encode any categorical variables.
