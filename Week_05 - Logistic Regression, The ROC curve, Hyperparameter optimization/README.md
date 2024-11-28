@@ -159,5 +159,5 @@ python task05.py
 
 ```console
 Tuned Logistic Regression Parameters: {'tol': 0.8163448979591836, 'penalty': 'l2', 'class_weight': {0: 0.8, 1: 0.2}, 'C': 0.5775510204081633}
-Tuned Logistic Regression Best Accuracy Score: 0.6441531419059509
+Tuned Logistic Regression Best Accuracy Score: 0.6493506493506493
 ```
