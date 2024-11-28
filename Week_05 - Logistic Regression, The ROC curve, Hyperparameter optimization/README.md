@@ -35,10 +35,12 @@ Answer the question: *What does the plot tell you about the model's performance?
 
 Possible answers:
 
-    A. The model is about as good as randomly guessing the class of each observation.
-    B. The model is much worse than randomly guessing the class of each observation.
-    C. The model is much better than randomly guessing the class of each observation.
-    D. It is not possible to conclude whether the model performs better or worse than randomly guessing the class of each observation.
+```text
+A. The model is about as good as randomly guessing the class of each observation.
+B. The model is much worse than randomly guessing the class of each observation.
+C. The model is much better than randomly guessing the class of each observation.
+D. It is not possible to conclude whether the model performs better or worse than randomly guessing the class of each observation.
+```
 
 **Acceptance criteria:**
 
