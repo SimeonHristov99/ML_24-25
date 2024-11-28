@@ -55,8 +55,6 @@ python task02.py
 
 The following graph is created:
 
-<!-- TODO: Use https://scikit-learn.org/stable/modules/generated/sklearn.metrics.RocCurveDisplay.html#sklearn.metrics.RocCurveDisplay.from_predictions for this -->
-
 ![w04_roc_results.png](../assets/w04_roc_results.png "w04_roc_results.png")
 
 ## Task 03 - Model selection
@@ -136,7 +134,7 @@ python task04.py
 
 ```console
 Tuned lasso paramaters: {'alpha': 1e-05}
-Tuned lasso score: 0.3296417347139618
+Tuned lasso score: 0.28280499604209275
 ```
 
 ## Task 05
