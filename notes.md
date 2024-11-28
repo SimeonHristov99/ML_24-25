@@ -6509,7 +6509,7 @@ It is a word that has been embedded in an `n` dimensional **semantic** space. Th
 
 <summary>Do you know what a corpus (plural, corpora) is?</summary>
 
-A set of preprocessed texts to perform NLP tasks on.
+A set of raw texts (not preprocessed) to perform NLP tasks on.
 
 </details>
 
