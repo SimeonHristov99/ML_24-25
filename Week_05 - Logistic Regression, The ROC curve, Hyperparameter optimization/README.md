@@ -17,12 +17,12 @@ Build a logistic regression model using all features in the diabetes dataset to 
 **Test case:**
 
 ```console
-python task01.py
+python task01.py  # you may get a "ConvergenceWarning" - this is ok; ignore it for now
 ```
 
 ```console
-[0.23040853 0.28910623 0.73169396 0.6312523  0.45115254 0.07690539
- 0.73115032 0.12432892 0.04388881 0.34826864]
+[0.23040852 0.28910622 0.731694   0.63125225 0.45115248 0.07690538
+ 0.7311503  0.12432889 0.04388881 0.34826858]
 ```
 
 ## Task 02 - Model evaluation
