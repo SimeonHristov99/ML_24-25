@@ -51,6 +51,13 @@ Please follow the instructions in one of the following two folders:
 - [The essence of linear algebra](https://www.youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab)
 - [The essence of calculus](https://www.youtube.com/playlist?list=PLZHQObOWTQDMsr9K-rj53DwVRMYO3t5Yr)
 - [Statistics](https://www.youtube.com/playlist?list=PL8dPuuaLjXtNM_Y-bUAhblSAdWRnmBUcr) (**recommended by Simo**)
+- [Algebra 1 Final Exam Review](https://www.youtube.com/watch?v=U0Y8nSmEpNM​)
+- [Trigonometry Final Exam Review](https://www.youtube.com/watch?v=OAsbx4TEnL0​)
+- [Calculus 1 Final Exam Review](https://www.youtube.com/watch?v=WmBzmHru78w​)
+- [Calculus 2 Final Exam Review](https://www.youtube.com/watch?v=3RwUIP9pMSo​)
+- [Physics 1 Final Exam Review](https://www.youtube.com/watch?v=CwkhvFlNFp0​)
+- [Physics 1B Final Exam Review](https://www.youtube.com/watch?v=mpmni1vZiAM​)
+- [Physics 2 Final Exam Review](https://www.youtube.com/watch?v=oH_V1WipnmE​)
 
 ### Machine Learning and Deep Learning
 
