@@ -264,8 +264,8 @@ python task08.py
 ```
 
 ```console
-Linear Regression Test Set RMSE: 0.11065258871993414
-Ridge Test Set RMSE: 0.1106551806411052
+Linear Regression Test Set RMSE: 0.11109818526605353
+Ridge Test Set RMSE: 0.11110048128156672
 ```
 
 ## Task 09
