@@ -21,6 +21,8 @@ Define the following functions:
 
 **Test case:**
 
+Due to randomness your results may vary.
+
 ```python
 create_dataset(4)          # [(0, 0), (1, 2), (2, 4), (3, 6)]
 initialize_weights(0, 100) # 95.07143064099162
