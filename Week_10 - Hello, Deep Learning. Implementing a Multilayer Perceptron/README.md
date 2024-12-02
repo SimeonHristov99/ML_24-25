@@ -12,7 +12,7 @@ We want to create and train a deep learning model that given `x` predicts `2 * x
 Define the following functions:
 
 1. `create_dataset`: accepts `n` and returns `n` consecutive samples that demonstrate the expected behavior.
-2. `initialize_weights`: accepts `x` and `y` and returns a random number from the uniform distribution in the range `[x, y)`.
+2. `initialize_weights`: accepts `x` and `y` and returns a random number from a uniform distribution in the range `[x, y)`.
 
 **Acceptance criteria:**
 
