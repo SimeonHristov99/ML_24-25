@@ -7,7 +7,7 @@
 
 **Description:**
 
-We want to create and train a machine learning model that given `x` predicts `2 * x`.
+We want to create and train a deep learning model that given `x` predicts `2 * x`.
 
 Define the following functions:
 
