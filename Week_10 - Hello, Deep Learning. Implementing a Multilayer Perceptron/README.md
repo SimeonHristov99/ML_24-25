@@ -33,7 +33,7 @@ initialize_weights(0, 10)  # 3.745401188473625
 
 We want to create and train a machine learning model that given `x` predicts `2 * x`.
 
-Create a dataset with `5` samples.
+Create a dataset with `6` samples.
 Create a model that has a random value for its parameter in the interval `[0, 10)` with a seed set to `42`.
 
 Define a function `calculate_loss` that accepts the model, a dataset and computes the mean squared error of the model over the dataset.
