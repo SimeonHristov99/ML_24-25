@@ -22,7 +22,7 @@ Define the following functions:
 **Test case:**
 
 ```python
-create_dataset(4)          # [(0, 0), (1, 2), (2, 4), (3, 6), (4, 8)]
+create_dataset(4)          # [(0, 0), (1, 2), (2, 4), (3, 6)]
 initialize_weights(0, 100) # 95.07143064099162
 initialize_weights(0, 10)  # 3.745401188473625
 ```
