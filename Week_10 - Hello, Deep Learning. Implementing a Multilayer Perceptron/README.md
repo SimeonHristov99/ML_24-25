@@ -47,6 +47,8 @@ Experiment with the first parameter of the model - what happens to loss function
 
 **Test case:**
 
+Due to randomness your result may vary.
+
 ```python
 loss = calculate_loss(w, dataset)
 print(f'MSE: {loss}') # MSE: 27.92556532998047
