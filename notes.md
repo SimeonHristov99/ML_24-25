@@ -7365,6 +7365,14 @@ Two ways to sort elements in topological order are given in [Wikipedia](https://
 
 ## The hyperbolic tangent
 
+<details>
+
+<summary>Why are activation functiosns needed?</summary>
+
+They introduce nonlinearity, making it possible for our network to learn somthing. Composition of matrices is a single matrix (as the matrix is a linear operation).
+
+</details>
+
 $${\displaystyle \tanh x={\frac {\sinh x}{\cosh x}}={\frac {e^{x}-e^{-x}}{e^{x}+e^{-x}}}={\frac {e^{2x}-1}{e^{2x}+1}}.}$$
 
 We observe that the `tanh` function is a shifted and stretched version of the `sigmoid`. Below, we can see its plot when the input is in the range $[-10, 10]$:
