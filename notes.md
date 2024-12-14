@@ -286,6 +286,18 @@
     - [Arithmetic operators](#arithmetic-operators)
     - [String Magic Methods](#string-magic-methods)
     - [Comparison magic methods](#comparison-magic-methods)
+- [Week 12 - Hello, PyTorch](#week-12---hello-pytorch)
+  - [PyTorch Dataset](#pytorch-dataset)
+  - [PyTorch Dataloader](#pytorch-dataloader)
+  - [PyTorch Model](#pytorch-model)
+  - [Training loop - PyTorch style](#training-loop---pytorch-style)
+  - [Optimizers](#optimizers)
+  - [Model evaluation - PyTorch style](#model-evaluation---pytorch-style)
+    - [Unstable gradients](#unstable-gradients)
+    - [Solutions to unstable gradients](#solutions-to-unstable-gradients)
+      - [Proper weights initialization](#proper-weights-initialization)
+      - [More appropriate activation functions](#more-appropriate-activation-functions)
+      - [Batch normalization](#batch-normalization)
 
 # Week 01 - Numpy, Pandas, Matplotlib & Seaborn
 
