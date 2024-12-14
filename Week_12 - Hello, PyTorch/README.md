@@ -181,7 +181,7 @@ Try to create a better model than the one we obtained in the previous tasks. Thi
 - activation functions;
 - architecture:
   - more linear layers;
-  - you could implement the famous `VGG` architectures: <https://viso.ai/deep-learning/vgg-very-deep-convolutional-networks/>.
+  - you could implement the famous `VGG` architectures: <https://viso.ai/deep-learning/vgg-very-deep-convolutional-networks/>. It's a model that's mainly used for image-related tasks but its architecture could inspire you to create your own twist that solves our problem.
 - number of epochs;
 - learning rates;
 - etc., etc.
