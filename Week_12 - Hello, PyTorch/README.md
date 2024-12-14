@@ -3,6 +3,10 @@
 1. Practice working with PyTorch datasets, dataloaders and models.
 2. Practice using PyTorch optimizers, activations and batch normalization.
 3. Write a training and an evaluation loop using PyTorch.
+4. Practice writing high quality code:
+   1. Easy to read.
+   2. Safe from bugs.
+   3. Ready for change.
 
 ## Task 01
 
