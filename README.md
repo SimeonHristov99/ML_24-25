@@ -27,9 +27,9 @@ Please follow the instructions in one of the following two folders:
 
 ## Schedules
 
-- [ ] Homework 1: 15/16.11 - 08.12.
+- [X] Homework 1: 15/16.11 - 08.12.
 - [ ] Homework 2: 14/15.12 - 12.01.
-- [ ] Projects: 06-12.01 - date of defense.
+- [ ] Projects: 16/22.12 - date of defense.
 
 ## Resources
 
