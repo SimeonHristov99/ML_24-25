@@ -169,7 +169,7 @@ edges={(Value(data=-6.0), Value(data=4.0)), (Value(data=10.0), Value(data=4.0)),
 
 **Description:**
 
-Let's visualize the tree leading up to a certain value. We'll be using the Python package [graphviz](https://pypi.org/project/graphviz/). Note, that before installing it, you should have `graphviz` installed. Graphviz is available for installation [here](https://graphviz.org/download/). After installing, run the command `pip install graphiviz`.
+Let's visualize the directed acyclic graph (`DAG`) leading up to a certain value. We'll be using the Python package [graphviz](https://pypi.org/project/graphviz/). Note, that before installing it with `pip`, you should have `graphviz` installed on your operating system. Graphviz is available for installation [here](https://graphviz.org/download/). After installing, run the command `pip install graphiviz`.
 
 Add the following code and ensure the test case runs successfully. Note that if by now you've run all scripts from the integrated terminal in vscode, you should now run this script from a terminal/command prompt that is **not** in VSCode.
 
@@ -216,7 +216,7 @@ def main() -> None:
 
 **Description:**
 
-Include a label of the node in the visualization shown by graphviz.
+Include a label of the node in the visualization shown by `graphviz`.
 
 **Test case:**
 
@@ -337,7 +337,7 @@ Codify the differentiation process so that it can be executed automatically usin
 To do this, we'll need to:
 
 - add another property to the `Value` class called `_backward` for automatic differentiation of the addition operation;
-- define a function - `top_sort`, that accepts a list of `Value` objects and sort them topologically. You can use the following code:
+- define a function - `top_sort`, that accepts a list of `Value` objects and sort them topologically.
 - integrate `top_sort` in a method called `backward` (notice that the `_backward` properties will stay).
 
 **Acceptance criteria:**
