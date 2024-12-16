@@ -518,8 +518,8 @@ python task14.py
 ```
 
 ```console
-First 5 predictions: [0 0 1 0 1]
-Test set accuracy: 0.9
+First 5 predictions: [1 0 1 1 0]
+Test set accuracy: 0.89
 ```
 
 ## Task 15
