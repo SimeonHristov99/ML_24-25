@@ -593,8 +593,8 @@ python task16.py
 ```
 
 ```console
-Accuracy achieved by using entropy: 0.956
-Accuracy achieved by using the gini index: 0.947
+Accuracy achieved by using entropy: 0.947
+Accuracy achieved by using the gini index: 0.956
 ```
 
 ## Task 17
