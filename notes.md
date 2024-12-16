@@ -7454,6 +7454,8 @@ Another difference is that the output of `tanh` is symmetric around zero, which 
 
 It has everything needed to create a data preprocessing, model training and model evaluation pipeline.
 
+![w12_tensor_meme](assets/w12_tensor_meme.png "w12_tensor_meme.png")
+
 - Open source.
 - Created by Meta.
 
