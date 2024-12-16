@@ -955,7 +955,7 @@ Test set ROC AUC: 0.697
 
 Finally, let's find the best random forest regressor for the Bike Sharing Demand dataset. Use the preprocessed version of the data you obtained.
 
-Search through the following hyperparameters using `3`-fold cross validation on a decision tree with a random state set to `2`:
+Search through the following hyperparameters using `3`-fold cross validation on the random forest regressor with a random state set to `2`:
 
 - `n_estimators`: `100`, `350`, `500`;
 - `max_features`: `log2`, `auto`, `sqrt`;
