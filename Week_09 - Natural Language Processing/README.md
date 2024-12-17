@@ -378,7 +378,7 @@ Percentage of entities referring to Gabo in gabo.txt: 0.26
 
 This task is about building a text classifier that can predict whether a news article is fake or real. Load the file `fake_or_real_news.csv` and output the first `7` rows. Output the distribution of the labels both as counts and as a percentage.
 
-Create a train-test split using `33%` of the data for testing. Set the seed to `53`.
+Create a train-test split using `33%` of the data for testing. Set the seed to `52`.
 
 Pass the preprocessed data to a `CountVectorizer` object allowing it to remove English stopwords for the articles. Output the first `10` feature names and the total amount of tokens.
 
