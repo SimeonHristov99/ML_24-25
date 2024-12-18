@@ -311,10 +311,10 @@ python task07.py
 ```
 
 ```console
-OVR training accuracy: 0.994060876020787
-OVR test accuracy    : 0.9644444444444444
+OVR training accuracy: 0.9955456570155902
+OVR test accuracy    : 0.96
 Softmax training accuracy: 1.0
-Softmax test accuracy    : 0.9733333333333334
+Softmax test accuracy    : 0.9622222222222222
 ```
 
 ## Task 08
