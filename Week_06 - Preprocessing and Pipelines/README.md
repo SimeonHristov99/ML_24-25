@@ -116,7 +116,7 @@ Build a pipeline that contains two steps:
 - one, called "imputer", for imputing missing values using an appropriate strategy;
 - another, called "knn", for building a `KNN` model for the classification of song `genre` using the closest `3` neighbors.
 
-Create a pipeline and apply it on the label encoded music dataset from the previous task. Use 70% of the data. Set any random seeds to 42.
+Create a pipeline and apply it on the label encoded dirty music dataset. Use 70% of the data. Set any random seeds to 42. Do not remove the missing values as that's why the imputer will be used for.
 
 Output the classification report, display the confusion matrix and ROC curve.
 
