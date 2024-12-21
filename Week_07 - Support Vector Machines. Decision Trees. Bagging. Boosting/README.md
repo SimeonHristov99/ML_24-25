@@ -30,9 +30,9 @@ python task01.py
 Dataset shape: (1797, 64)
 Number of classes: 10
 Training accuracy of logistic regression: 1.0
-Validation accuracy of logistic regression: 0.9622222222222222
-Training accuracy of non-linear support vector classifier: 0.9977728285077951
-Validation accuracy of non-linear support vector classifier: 0.9866666666666667
+Validation accuracy of logistic regression: 0.9644444444444444
+Training accuracy of non-linear support vector classifier: 0.9948032665181886
+Validation accuracy of non-linear support vector classifier: 0.9977777777777778
 ```
 
 and the following plot gets generated:
