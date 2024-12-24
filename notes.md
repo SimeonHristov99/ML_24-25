@@ -199,7 +199,7 @@
   - [Visualization communicates insight](#visualization-communicates-insight)
   - [A hierarchy of groups](#a-hierarchy-of-groups)
   - [Eurovision scoring dataset](#eurovision-scoring-dataset)
-  - [`Agglomerative` hiearchical clustering](#agglomerative-hiearchical-clustering)
+  - [`Agglomerative` hierarchical clustering](#agglomerative-hierarchical-clustering)
   - [Implementing using `scipy`](#implementing-using-scipy)
   - [Cluster labels in hierarchical clustering](#cluster-labels-in-hierarchical-clustering)
   - [Dendrograms show cluster distances](#dendrograms-show-cluster-distances)
@@ -5498,7 +5498,7 @@ After scaling:
 - Dendrograms are read from the bottom up.
 - Vertical lines represent clusters.
 
-## `Agglomerative` hiearchical clustering
+## `Agglomerative` hierarchical clustering
 
 1. Every country is in a separate cluster.
 2. At each step, the two closest clusters are merged.
