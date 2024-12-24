@@ -197,7 +197,7 @@
     - [`StandardScaler`](#standardscaler)
   - [`sklearn` preprocessing steps](#sklearn-preprocessing-steps)
   - [Visualization communicates insight](#visualization-communicates-insight)
-  - [A higherarchy of groups](#a-higherarchy-of-groups)
+  - [A hierarchy of groups](#a-hierarchy-of-groups)
   - [Eurovision scoring dataset](#eurovision-scoring-dataset)
   - [`Agglomerative` hiearchical clustering](#agglomerative-hiearchical-clustering)
   - [Implementing using `scipy`](#implementing-using-scipy)
@@ -5471,7 +5471,7 @@ After scaling:
   - `Hierarchical clustering`;
   - `t-SNE`: Creates a 2D map of a dataset.
 
-## A higherarchy of groups
+## A hierarchy of groups
 
 - We already know many hierarchical clustering from the real world.
 - Groups of living things can form a hierarchy.
