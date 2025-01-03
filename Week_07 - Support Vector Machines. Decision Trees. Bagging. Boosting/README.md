@@ -809,7 +809,7 @@ Predict bike rental demand in the Capital Bikeshare program in Washington, D.C u
 - `registered`: number of registered user rentals initiated
 - `count`: number of total of bike rentals
 
-Use the random forests algorithm. Model requirements:
+Use the random forest algorithm. Model requirements:
 
 - Set the random state to `2`.
 - Use `25` trees.
@@ -958,7 +958,7 @@ Finally, let's find the best random forest regressor for the Bike Sharing Demand
 Search through the following hyperparameters using `3`-fold cross validation on the random forest regressor with a random state set to `2`:
 
 - `n_estimators`: `100`, `350`, `500`;
-- `max_features`: `log2`, `auto`, `sqrt`;
+- `max_features`: `log2`, `sqrt`;
 - `min_samples_leaf`: `2`, `10`, `30`.
 
 Output the best `negative root mean squared error` score obtained on the test set.
