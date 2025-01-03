@@ -134,9 +134,11 @@ Answer the following question in a comment:
 
 Which of the following statements is true about batch normalization?
 
+```text
 A. Adding batch normalization doesn't impact the number of parameters the model has to learn.
 B. Batch normalization normalizes a layer's inputs to a standard normal distribution and passes these normalized values further.
 C. Batch normalization effectively learns the optimal input distribution for each layer it precedes.
+```
 
 **Acceptance criteria:**
 
