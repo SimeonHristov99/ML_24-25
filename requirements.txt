@@ -11,10 +11,6 @@ isort
 mlxtend
 nltk
 gensim
-polyglot
-pycld2 # required by polyglot
-PyICU # required by polyglot. In case of difficulties: https://stackoverflow.com/questions/56966629/i-had-issue-with-installing-icu-in-python-3-5-windows-10, https://github.com/cgohlke/pyicu-build/releases, pip install https://github.com/aboSamoor/pycld2/zipball/e3ac86ed4d4902e912691c1531d0c5645382a726
-morfessor # required by polyglot
 torch==2.3.1
 torchvision==0.18.1
 torchaudio==2.3.1

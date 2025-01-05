@@ -346,36 +346,6 @@ MONEY 186
 
 **Description:**
 
-Using the package `polyglot`, output all recongnized entities in the article `french.txt`. Note that beforehand you'll have to run the following commands in your Python environment to install the needed language support:
-
-```console
-polyglot download embeddings2.fr
-polyglot download ner2.fr
-polyglot download embeddings2.en
-polyglot download ner2.en
-```
-
-Then find the percentage of entities that refer to (i.e. contain) `Márquez` or `Gabo` in `gabo.txt`.
-
-**Acceptance criteria:**
-
-1. The test case passes.
-
-**Test case:**
-
-```console
-python task10.py
-```
-
-```console
-All recognized entities: [I-PER(['Charles', 'Cuvelliez']), I-PER(['Charles', 'Cuvelliez']), I-ORG(['Bruxelles']), I-PER(['l’IA']), I-PER(['Julien', 'Maldonato']), I-ORG(['Deloitte']), I-PER(['Ethiquement']), I-LOC(['l’IA']), I-PER(['.'])]
-Percentage of entities referring to Gabo in gabo.txt: 0.26
-```
-
-## Task 11
-
-**Description:**
-
 This task is about building a text classifier that can predict whether a news article is fake or real. Load the file `fake_or_real_news.csv` and output the first `7` rows. Output the distribution of the labels both as counts and as a percentage.
 
 Create a train-test split using `33%` of the data for testing. Set the seed to `52`.
@@ -398,7 +368,7 @@ To get a better idea of how the vectors work, you'll investigate them by convert
 **Test case:**
 
 ```console
-python task11.py
+python task10.py
 ```
 
 ```console
@@ -449,7 +419,7 @@ DataFrame obtained by TfidfVectorizer - df_tfidf:
 Tokens that are in df_count, but are not in df_tfidf: set()
 ```
 
-## Task 12
+## Task 11
 
 **Description:**
 
@@ -471,7 +441,7 @@ As a final step, let's explore what words the classifier thinks are stong indica
 **Test case:**
 
 ```console
-python task12.py
+python task11.py
 ```
 
 ```console
@@ -484,6 +454,6 @@ REAL ['clinton', 'trump', 'hillary', 'election', '2016', 'people', 'fbi', 'russi
 
 and the following plots get created:
 
-![w09_task12.png](../assets/w09_task12.png "w09_task12.png")
+![w09_task11.png](../assets/w09_task11.png "w09_task11.png")
 
-![w09_task12_2.png](../assets/w09_task12_2.png "w09_task12_2.png")
+![w09_task11_2.png](../assets/w09_task11_2.png "w09_task11_2.png")

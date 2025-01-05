@@ -269,8 +269,6 @@
     - [Using `nltk`](#using-nltk)
   - [What is `SpaCy`?](#what-is-spacy)
   - [SpaCy NER](#spacy-ner)
-  - [What is polyglot?](#what-is-polyglot)
-  - [Spanish NER with `polyglot`](#spanish-ner-with-polyglot)
   - [Building word count vectors with `scikit-learn`](#building-word-count-vectors-with-scikit-learn)
   - [Supervised NLP - checkpoint](#supervised-nlp---checkpoint)
   - [The Naive Bayes Classifier](#the-naive-bayes-classifier)
@@ -6859,37 +6857,6 @@ doc.ents[0], doc.ents[0].label_
 
 ```console
 (Berlin, 'GPE')
-```
-
-## What is [polyglot](https://polyglot.readthedocs.io/en/latest/)?
-
-- NLP library which uses word vectors.
-- The main usecase is that `polyglot` has word vectors in [40 languages](https://polyglot.readthedocs.io/en/latest/NamedEntityRecognition.html).
-
-## Spanish NER with `polyglot`
-
-```python
-# in venv run:
-# "polyglot download embeddings2.es"
-# and "polyglot download ner2.es" beforehand
-from polyglot.text import Text
-text = """El presidente de la Generalitat de Cataluña,
-                 Carles Puigdemont, ha afirmado hoy a la alcaldesa
-                  de Madrid, Manuela Carmena, que en su etapa de
-                  alcalde de Girona (de julio de 2011 a enero de 2016)
-                  hizo una gran promoción de Madrid."""
-ptext = Text(text)
-ptext.entities
-```
-
-```console
-[I-ORG(['Generalitat', 'de']),
-I-LOC(['Generalitat', 'de', 'Cataluña']),
-I-PER(['Carles', 'Puigdemont']),
-I-LOC(['Madrid']),
-I-PER(['Manuela', 'Carmena']),
-I-LOC(['Girona']),
-I-LOC(['Madrid'])]
 ```
 
 ## Building word count vectors with `scikit-learn`
