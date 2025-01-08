@@ -476,7 +476,7 @@ The following plot is generated:
 
 **Description:**
 
-The fish dataset is `6`-dimensional. But what is its *intrinsic* dimension? To answer this question, we have to create a bar plot of the variances of the PCA features. Standardize the features before passing them to the PCA model - use a pipeline for that.
+The fish dataset (from task `5`) is `6`-dimensional. But what is its *intrinsic* dimension? To answer this question, we have to create a bar plot of the variances of the PCA features. Standardize the features before passing them to the PCA model - use a pipeline for that.
 
 Identify the intrinsic dimension of the scaled dataset and use it to apply `PCA`for dimensionality reduction. Output the shape of the resulting features.
 
