@@ -325,6 +325,21 @@
   - [Internals of the `GRU` cell](#internals-of-the-gru-cell)
   - [Should I use RNN, LSTM, or GRU?](#should-i-use-rnn-lstm-or-gru)
   - [Checkpoint](#checkpoint-8)
+- [Week 15 - Graph Neural Networks](#week-15---graph-neural-networks)
+  - [Introduction](#introduction-6)
+  - [Jazz Musicians Network](#jazz-musicians-network)
+  - [Graphs with `NetworkX`](#graphs-with-networkx)
+  - [Why is it hard to analyze a graph?](#why-is-it-hard-to-analyze-a-graph)
+  - [What is a Graph Neural Network (GNN)?](#what-is-a-graph-neural-network-gnn)
+  - [Types of Graph Neural Networks Tasks](#types-of-graph-neural-networks-tasks)
+  - [Types of Graph Neural Networks](#types-of-graph-neural-networks)
+  - [Graph Convolutional Networks (GCNs)](#graph-convolutional-networks-gcns)
+    - [Spatial Graph Convolutional Networks](#spatial-graph-convolutional-networks)
+    - [Spectral Graph Convolutional Networks](#spectral-graph-convolutional-networks)
+  - [Graph Auto-Encoder Networks](#graph-auto-encoder-networks)
+  - [Recurrent Graph Neural Networks](#recurrent-graph-neural-networks)
+  - [The MUTAG dataset](#the-mutag-dataset)
+  - [`PyCaret`: Low-code Machine Learning](#pycaret-low-code-machine-learning)
 
 # Week 01 - Numpy, Pandas, Matplotlib & Seaborn
 
@@ -8598,3 +8613,218 @@ D. LSTM cells typically provide better results than GRU cells because they can h
 Answer: B, C.
 
 </details>
+
+# Week 15 - Graph Neural Networks
+
+## Introduction
+
+![w15_gnn.png](assets/w15_gnn.png "w15_gnn.png")
+
+<details>
+
+<summary>What is a Graph?</summary>
+
+A data structure that contains nodes and edges. A node can be a person, place, or thing, and the edges define the relationship between nodes. The edges can be directed and undirected based on directional dependencies.
+
+</details>
+
+<details>
+
+<summary>What added value do graphs have compared to traditional table-based representations of data?</summary>
+
+They are excellent in dealing with complex problems with relationships and interactions.
+
+</details>
+
+<details>
+
+<summary>Give two examples of data that is best suited for storing in a graph structure.</summary>
+
+- Social networks interactions.
+- Chemical compounds.
+
+</details>
+
+## [Jazz Musicians Network](https://datarepository.wolframcloud.com/resources/Jazz-Musicians-Network)
+
+- An example of a graph dataset is the Jazz Musicians Network.
+- Contains 198 nodes and 2742 edges.
+
+![w15_community_graph_plot.png](assets/w15_community_graph_plot.png "w15_community_graph_plot.png")
+
+- Different colors of nodes represent various communities of Jazz musicians and the edges connecting them.
+- There is a web of collaboration where a single musician has relationships within and outside the community.
+
+## Graphs with [`NetworkX`](https://networkx.org/)
+
+The above plot is created using code written in the [Wolfram Language](https://en.wikipedia.org/wiki/Wolfram_Language).
+
+We can create graphs in Python using the package [`NetworkX`](https://networkx.org/):
+
+```python
+import networkx as nx
+import matplotlib.pyplot as plt
+H = nx.DiGraph()
+
+H.add_nodes_from([
+  (0, {"color": "blue", "size": 250}),
+  (1, {"color": "yellow", "size": 400}),
+  (2, {"color": "orange", "size": 150}),
+  (3, {"color": "red", "size": 600})
+])
+
+H.add_edges_from([
+  (0, 1),
+  (1, 2),
+  (1, 0),
+  (1, 3),
+  (2, 3),
+  (3,0)
+])
+
+node_colors = nx.get_node_attributes(H, "color").values()
+colors = list(node_colors)
+node_sizes = nx.get_node_attributes(H, "size").values()
+sizes = list(node_sizes)
+
+nx.draw(H, with_labels=True, node_color=colors, node_size=sizes)
+plt.show()
+```
+
+![w15_plot1.png](assets/w15_plot1.png "w15_plot1.png")
+
+## Why is it hard to analyze a graph?
+
+Graph-based data structures have drawbacks, and data scientists must understand them before developing graph-based solutions.
+
+1. A graph exists in non-euclidean space. It does not exist in 2D or 3D space, which makes it harder to interpret the data. To visualize the structure in 2D space, you must use various dimensionality reduction tools.
+2. Graphs are dynamic; they do not have a fixed form. There can be two visually different graphs, but they might have similar adjacency matrix representations. It makes it difficult for us to analyze data using traditional statistical tools.
+3. Large size and dimensionality will increase the graph's complexity for human interpretations. The dense structure with multiple nodes and thousands of edges is harder to understand and extract insights from.
+
+## What is a Graph Neural Network (GNN)?
+
+- Neural networks that take as input a graph.
+- They are highly influenced by Convolutional Neural Networks (CNNs) and graph embedding. GNNs are used to predict the values of nodes or existence of edges.
+- CNNs are used for image classification. Similarly, GNNs are applied to graph structure (grid of pixels where each pixel is a node) to predict a class.
+- Recurrent Neural Networks are used in text classification. Similarly, GNNs are applied to graph structures where every word is a node in a sentence.
+
+## Types of Graph Neural Networks Tasks
+
+- **Graph Classification**: Classify graphs as belonging to a certain category. E.g.: social network analysis and text classification.
+- **Node Classification**: Uses neighboring node labels to predict a missing node label.
+- **Link Prediction**: Predict the link between a pair of nodes in a graph with an incomplete adjacency matrix. E.g.: social networks.
+- **Community Detection**: Divides nodes into various clusters based on edge structure. It learns from edge weights and distance.
+- **Graph Embedding**: Maps graphs into vectors, preserving the relevant information on nodes, edges, and structure.
+- **Graph Generation**: Learns from sample graph distribution to generate a new and similar graph structure.
+
+![w15_task_types.png](assets/w15_task_types.png "w15_task_types.png")
+
+## Types of Graph Neural Networks
+
+There are several types of neural networks, and most of them have some variation of Convolutional Neural Networks.
+
+1. Graph Convolutional Networks (GCNs).
+2. Graph Auto-Encoder Networks.
+3. Recurrent Graph Neural Networks (RGNNs)
+
+## Graph Convolutional Networks (GCNs)
+
+- Pretty similar to the traditional CNN architecture.
+  - Graph convolution, linear layer, and non-linear activation function.
+- Learn features by inspecting neighboring nodes.
+- There are two major types of GCNs:
+  - Spatial Graph Convolutional Networks;
+  - Spectral Graph Convolutional Networks.
+
+### Spatial Graph Convolutional Networks
+
+- Assume that a graph can be coupled with a spatial structure, e.g. chemical compounds is a graph determined by atoms and bonds, which are embedded in 3D space.
+- If we represent an image as a graph, where neighbor pixels are connected with edges, SGCN is capable of imitating the behavior of any CNNs operating on analogical image.
+
+![w15_spatial_gnn.png](assets/w15_spatial_gnn.png "w15_spatial_gnn.png")
+
+### Spectral Graph Convolutional Networks
+
+- Perform an Eigen decomposition of the Laplacian Matrix of the graph.
+- The Eigen decomposition helps in understanding the underlying structure of the graph with which clusters/sub-groups of the graph can be identified.
+- An analogy is PCA where we understand the spread of the data by performing an Eigen Decomposition of the feature matrix.
+- The only difference between these two methods is with respect to the Eigen values:
+  - Smaller Eigen values explain the structure of the data better in Spectral Convolution whereas it's the opposite in PCA.
+
+## Graph Auto-Encoder Networks
+
+- Learn graph representation using an encoder and attempt to reconstruct input graphs using a decoder. The encoder and decoders are joined by a bottleneck layer.
+- They are commonly used in link prediction as Auto-Encoders are good at dealing with class imbalance.
+
+![w15_graph_auto_encoder.png](assets/w15_graph_auto_encoder.png "w15_graph_auto_encoder.png")
+
+## Recurrent Graph Neural Networks
+
+- Learn the best diffusion pattern and handle multi-relational graphs where a single node has multiple relations. This type of graph neural network uses regularizers to boost smoothness.
+- RGNNs generally use less computation power to produce better results.
+- They are used in generating text, machine translation, speech recognition, generating image descriptions, video tagging, and text summarization.
+
+![w15_graph_rnn.png](assets/w15_graph_rnn.png "w15_graph_rnn.png")
+
+## The MUTAG dataset
+
+- Input graphs represent chemical compounds, where vertices stand for atoms and are labeled by the atom type (represented by one-hot encoding), while edges between vertices represent bonds between the corresponding atoms.
+- It includes 188 samples of chemical compounds with 7 discrete node labels.
+
+```python
+import torch
+import torch.nn.functional as F
+from torch_geometric.datasets import TUDataset
+from torch_geometric.nn import GCNConv
+
+class GCN(torch.nn.Module):
+    def __init__(self, num_features, num_classes):
+        super(GCN, self).__init__()
+        self.conv1 = GCNConv(num_features, 16)
+        self.conv2 = GCNConv(16, num_classes)
+
+    def forward(self, data):
+        x, edge_index = data.x, data.edge_index
+        x = self.conv1(x, edge_index)
+        x = F.relu(x)
+        x = F.dropout(x, training=self.training)
+        x = self.conv2(x, edge_index)
+        return F.log_softmax(x, dim=1)
+
+dataset = TUDataset(root="./data/MUTAG", name="MUTAG")
+data = dataset[0]
+
+model = GCN(num_features=dataset.num_node_features, num_classes=dataset.num_classes)
+optimizer = torch.optim.Adam(model.parameters(), lr=0.01, weight_decay=5e-4)
+
+def train():
+    model.train()
+    optimizer.zero_grad()
+    out = model(data)
+    loss = F.nll_loss(out[data.train_mask], data.y[data.train_mask])
+    loss.backward()
+    optimizer.step()
+    return loss.item()
+
+def test():
+    model.eval()
+    with torch.no_grad():
+        pred = model(data).argmax(dim=1)
+        correct = pred[data.test_mask] == data.y[data.test_mask]
+        acc = int(correct.sum()) / int(data.test_mask.sum())
+    return acc
+
+for epoch in range(200):
+    loss = train()
+    if epoch % 10 == 0 or epoch == 199:
+        acc = test()
+        print(f"Epoch {epoch:03d}, Loss: {loss:.4f}, Test Accuracy: {acc:.4f}")
+```
+
+## [`PyCaret`](https://pycaret.org/): Low-code Machine Learning
+
+- An open-source, low-code machine learning library in Python that automates machine learning workflows.
+- You can use this tool to do automatic preprocessing, exploration, modelling, evaluation and finetuning: <https://pycaret.gitbook.io/docs>.
+- Examples:
+  - <https://pycaret.gitbook.io/docs/get-started/functions/train#example>
+  - <https://nbviewer.org/github/pycaret/examples/tree/main/>
