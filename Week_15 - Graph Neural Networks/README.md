@@ -5,7 +5,7 @@
 
 ## Task 01
 
-Define a graph neural network that classifies nodes using the `MUTAG` dataset.
+Define a graph neural network that classifies nodes using [the `MUTAG` dataset](https://pytorch-geometric.readthedocs.io/en/2.6.0/generated/torch_geometric.datasets.TUDataset.html#torch_geometric.datasets.TUDataset).
 
 ## Task 02
 
