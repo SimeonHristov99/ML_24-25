@@ -15,7 +15,7 @@ Create a plot with `6` randomly chosen pictures from the training data of the cl
 **Acceptance criteria:**
 
 1. A figure is created with `6` randomly chosen pictures.
-2. No seed it set.
+2. No seed is set.
 
 **Test case:**
 
