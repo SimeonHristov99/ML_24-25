@@ -23,12 +23,12 @@ Please follow the instructions in one of the following two folders:
 12. :white_check_mark: 16.12, Monday, 8 am, 013
 13. :white_check_mark: **17.12, Tuesday, 11 am, 013**
 14. :white_check_mark: 06.01, Monday, 8 am, 013
-15. 13.01, Monday, 8 am, 013
+15. :white_check_mark: 13.01, Monday, 8 am, 013
 
 ## Schedules
 
 - [X] Homework 1: 15/16.11 - 08.12.
-- [ ] Homework 2: 14/15.12 - 12.01.
+- [X] Homework 2: 14/15.12 - 12.01.
 - [ ] Projects: 16/22.12 - date of defense.
 
 ## Resources
