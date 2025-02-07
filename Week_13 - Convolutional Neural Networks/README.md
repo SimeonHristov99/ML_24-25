@@ -141,7 +141,7 @@ Analyze the results and write out your conclusions in a comment.
 
 **Acceptance criteria:**
 
-1. The time needed for data preparation is logged in seconds.
+1. The time needed to train the model is logged in seconds.
 2. The following metrics are logged: global macro precision, global macro recall, global macro `F1` score, per-class `F1` score.
 3. The module `pprint` is used.
 4. A comment is written with an analysis of the results.
